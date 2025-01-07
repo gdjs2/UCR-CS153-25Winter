@@ -151,6 +151,7 @@ Open this directory using any code editor (e.g., vscode). In the directory `/use
 Copy and paste the following code to the file. Remember to save it.
 
 ```c
+#include "kernel/types.h"
 #include "user/user.h"
 
 int main() {
