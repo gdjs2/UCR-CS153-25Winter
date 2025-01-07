@@ -1,17 +1,24 @@
-# Welcome to MkDocs
+# CS153 - Design of Operating System - Lab Session - 25 Winter
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+## Basic Info
 
-## Commands
+Hi👋, welcome to the course page for *CS153 Design of Operating System, Winter 2025* for UC Riverside, whose lecture is hosted by Prof. [Heng Yin](https://www.cs.ucr.edu/~heng/). The laboratory section would be hosted by me, Zhaoqi Xiao. 
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+There will be 3 lab assignments for this course starting from lab 1. You need to submit a short report on eLearn and a git commit on github classroom. 
 
-## Project layout
+## Late Policy
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+* No slack days
+* We will use the eLearn submission timestamp to determine the days. Please note that deadlines are end of day (11:59:59pm). If you're a few minutes late, the submission will not be considered as late.
+* 10% penalty for every late day and the maximum penalty is 50%, so submitting is always better than not submitting.
+
+## Lab Participation
+
+There will be 2 lab session per week, while you only need to take one which is more convenient to you. We will track the attendance in the first lab session after a new assignment is released (e.g., the lab in the next week, in which we will release lab 1). 
+
+The left Q/A labs will not have attendance taken. You are free to come if you need help on your lab assignment. 
+
+## Index for Labs
+
+0. [Lab 0 (Not counted for score)](./lab-instructions/lab0.md)
+
