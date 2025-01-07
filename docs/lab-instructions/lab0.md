@@ -178,6 +178,16 @@ hello, world
 
 You are done with your work here!
 
+## Push Your Work
+
+You now can push your work to the repository in Github Classroom. You can use the GUI of your editor (e.g., vscode) to do this, or you can use the command line. 
+
+For command line: [https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository#adding-a-file-to-a-repository-using-the-command-line](https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository#adding-a-file-to-a-repository-using-the-command-line)
+
+For vscode: [https://code.visualstudio.com/docs/sourcecontrol/intro-to-git#_staging-and-committing-code-changes](https://code.visualstudio.com/docs/sourcecontrol/intro-to-git#_staging-and-committing-code-changes)
+
+Just focus on Section *Staging and committing code changes* and Section *Pushing and pulling remote changes*
+
 ## Basic Linux Commands
 
 1. `cd [SOMEWHERE]`: change directory to SOMEWHERE. `cd /` will change directory to root directoty. `cd ..` will change to the upper level directory. `cd dir1` will change to `dir1` under currect directory.
