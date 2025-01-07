@@ -88,11 +88,39 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#join-in-our-github-classroom" class="nav-link">Join in our Github Classroom</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#accept-lab-0" class="nav-link">Accept Lab 0</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#required-system" class="nav-link">Required System</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#required-tools" class="nav-link">Required Tools</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#compile" class="nav-link">Compile</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#add-the-first-user-program" class="nav-link">Add the First User Program!</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#basic-linux-commands" class="nav-link">Basic Linux Commands</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#basic-git-commands" class="nav-link">Basic Git Commands</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#git-related-questions" class="nav-link">Git related Questions</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -110,6 +138,11 @@
 <li>This is a demo for you to get familiar to the github classroom.</li>
 <li>Try this step-by-step demo and push your work to see whether you can achieve full score!</li>
 </ol>
+<h2 id="join-in-our-github-classroom">Join in our Github Classroom</h2>
+<p>Click the link: <a href="https://classroom.github.com/classrooms/193988062-ucr-cs153-25winter">https://classroom.github.com/classrooms/193988062-ucr-cs153-25winter</a></p>
+<p>Join in the classroom and link your github account to your SID. If your SID DOESN't appear in the list, contact me. </p>
+<h2 id="accept-lab-0">Accept Lab 0</h2>
+<p>Accept Lab 0 thourgh the link: <a href="https://classroom.github.com/a/tgW8fvsX">https://classroom.github.com/a/tgW8fvsX</a></p>
 <h2 id="required-system">Required System</h2>
 <p>A Unix-like system!
 It can be:
@@ -153,7 +186,94 @@ riscv64-linux-gnu-gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0
 <pre><code class="language-bash">$ riscv64-unknown-elf-gcc --version
 </code></pre>
 <pre><code class="language-bash">$ riscv64-unknown-linux-gnu-gcc --version
-</code></pre></div>
+</code></pre>
+<h2 id="compile">Compile</h2>
+<p>Get into the directory with your lab0 code.</p>
+<pre><code class="language-bash">$ cd /some/path/to/xv6-riscv-lab0
+</code></pre>
+<p>Build and run xv6</p>
+<pre><code class="language-bash">$ make qemu
+riscv64-linux-gnu-gcc    -c -o kernel/entry.o kernel/entry.S
+riscv64-linux-gnu-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb
+...
+riscv64-linux-gnu-objdump -S user/_zombie &gt; user/zombie.asm
+riscv64-linux-gnu-objdump -t user/_zombie | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' &gt; user/zombie.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 1954 total 2000
+balloc: first 767 blocks have been allocated
+balloc: write bitmap block at sector 45
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 3 -nographic -global virtio-mmio.force-legacy=false -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+hart 2 starting
+hart 1 starting
+init: starting sh
+</code></pre>
+<p>Now, xv6-riscv has been compiled and a bash is running. If you type <code>ls</code> at the prompt, you should see output similar to the following:</p>
+<pre><code class="language-bash">$ ls
+.              1 1 1024
+..             1 1 1024
+README         2 2 2292
+cat            2 3 34264
+echo           2 4 33184
+forktest       2 5 16184
+grep           2 6 37520
+init           2 7 33648
+kill           2 8 33104
+ln             2 9 32920
+ls             2 10 36288
+mkdir          2 11 33160
+rm             2 12 33152
+sh             2 13 54728
+stressfs       2 14 34048
+usertests      2 15 179352
+grind          2 16 49400
+wc             2 17 35216
+zombie         2 18 32528
+console        3 19 0
+
+</code></pre>
+<p>There are the files that mkfs includes in the initial file system; most are programs you can run. </p>
+<p>To quit qemu type <code>Ctrl-a x</code> (press <code>Ctrl</code> and <code>a</code> at the same time, followed by <code>x</code>)</p>
+<h2 id="add-the-first-user-program">Add the First User Program!</h2>
+<p>Open this directory using any code editor (e.g., vscode). In the directory <code>/user</code>, add a file named by <code>hello-world.c</code>. </p>
+<p>Copy and paste the following code to the file. Remember to save it.</p>
+<pre><code class="language-c">#include &quot;user/user.h&quot;
+
+int main() {
+    printf(&quot;hello, world\n&quot;);
+}
+</code></pre>
+<p>Add one line in the file <code>/Makefile</code>, just after line 141 and save. </p>
+<pre><code class="language-makefile">...
+    $U/_grind\
+    $U/_wc\
+    $U/_zombie\
+   $U/_hello-world\
+</code></pre>
+<p>Now recompile the code using <code>make qemu</code>. After you see <code>init: starting sh</code>. You can type <code>ls</code> to check whether there is a new program naming <code>hello-world</code>. If there is, type command <code>hello-world</code> to run this program. </p>
+<pre><code class="language-bash">$ hello-world
+hello, world
+</code></pre>
+<p>You are done with your work here!</p>
+<h2 id="basic-linux-commands">Basic Linux Commands</h2>
+<ol>
+<li><code>cd [SOMEWHERE]</code>: change directory to SOMEWHERE. <code>cd /</code> will change directory to root directoty. <code>cd ..</code> will change to the upper level directory. <code>cd dir1</code> will change to <code>dir1</code> under currect directory.</li>
+<li><code>ls</code> or <code>ls [SOMEWHERE]</code>: <code>ls</code> is the same as <code>ls .</code>, which means list the items in currect directory. You can use a parameter to specify which directory you want to list.</li>
+</ol>
+<h2 id="basic-git-commands">Basic Git Commands</h2>
+<ol>
+<li><code>git clone [URL]</code>: clone a repository to currect position. </li>
+<li><code>git add [FILES]</code>: add some files for tracking.</li>
+<li><code>git commit -c "CMNT HERE"</code>: commit the changes and append some comment.</li>
+<li><code>git push</code>: push the commit(s) to the remote repository.</li>
+</ol>
+<h2 id="git-related-questions">Git related Questions</h2>
+<h3 id="how-can-i-clone-a-private-repository-to-my-local-machine">How can I clone a private repository to my local machine?</h3>
+<p>https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository</p>
+<h3 id="what-if-there-is-a-permission-error-when-i-try-cloning-a-repository">What if there is a permission error when I try cloning a repository?</h3>
+<p>https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account</p></div>
             </div>
         </div>
 
