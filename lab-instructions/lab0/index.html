@@ -239,7 +239,8 @@ console        3 19 0
 <h2 id="add-the-first-user-program">Add the First User Program!</h2>
 <p>Open this directory using any code editor (e.g., vscode). In the directory <code>/user</code>, add a file named by <code>hello-world.c</code>. </p>
 <p>Copy and paste the following code to the file. Remember to save it.</p>
-<pre><code class="language-c">#include &quot;user/user.h&quot;
+<pre><code class="language-c">#include &quot;kernel/types.h&quot;
+#include &quot;user/user.h&quot;
 
 int main() {
     printf(&quot;hello, world\n&quot;);
