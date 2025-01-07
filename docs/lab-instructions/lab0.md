@@ -28,6 +28,8 @@ It can be:
 
 After you get your system set up, you should install some necessary tools for developing xv6. Run the following command in your command line (copy & paste the command just following the $ sign).
 
+If you meet errors when downloading the requirements, check whether you update your package manager's index first. For example, if you are using Ubuntu, you need use `$ sudo apt update` to update your index.
+
 ### Debian or Ubuntu
 ```bash
 $ sudo apt-get install git build-essential gdb-multiarch qemu-system-misc gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu 
@@ -187,6 +189,9 @@ For command line: [https://docs.github.com/en/repositories/working-with-files/ma
 For vscode: [https://code.visualstudio.com/docs/sourcecontrol/intro-to-git#_staging-and-committing-code-changes](https://code.visualstudio.com/docs/sourcecontrol/intro-to-git#_staging-and-committing-code-changes)
 
 Just focus on Section *Staging and committing code changes* and Section *Pushing and pulling remote changes*
+
+
+> Hit: Always use `make clean` to clean up the binary files compiled before you commit your change. It can avoid submitting unnecessary files (usually binary and intermediate files). 
 
 ## Basic Linux Commands
 
