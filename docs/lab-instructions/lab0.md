@@ -208,7 +208,9 @@ Just focus on Section *Staging and committing code changes* and Section *Pushing
 ## Git related Questions
 
 ### How can I clone a private repository to my local machine?
-https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+
+[https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
 ### What if there is a permission error when I try cloning a repository?
-https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+
+[https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
