@@ -24,7 +24,7 @@ The left Q/A labs will not have attendance taken. You are free to come if you ne
 
 ## Supplementary Materials
 
-* [C language and pointers](./lab-instructions/c-pointers.md)
+* [C language and pointers (Not done yet)](./lab-instructions/c-pointers.md)
 * [Debug for xv6](https://gdjs2.cn/UCR-CS202-24Fall/lab-tutorials/debug/)
 * [xv6 Tutorial](https://pdos.csail.mit.edu/6.828/2024/)
 * [xv6 Book](https://pdos.csail.mit.edu/6.828/2024/xv6/book-riscv-rev4.pdf)
