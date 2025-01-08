@@ -92,10 +92,6 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#join-in-our-github-classroom" class="nav-link">Join in our Github Classroom</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             <li class="nav-item" data-bs-level="2"><a href="#accept-lab-0" class="nav-link">Accept Lab 0</a>
               <ul class="nav flex-column">
               </ul>
@@ -105,6 +101,10 @@
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#required-tools" class="nav-link">Required Tools</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#clone-your-repository" class="nav-link">Clone your repository</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -146,17 +146,17 @@
 <li>This is a demo for you to get familiar to the github classroom.</li>
 <li>Try this step-by-step demo and push your work to see whether you can achieve full score!</li>
 </ol>
-<h2 id="join-in-our-github-classroom">Join in our Github Classroom</h2>
-<p>Click the link: <a href="https://classroom.github.com/classrooms/193988062-ucr-cs153-25winter">https://classroom.github.com/classrooms/193988062-ucr-cs153-25winter</a></p>
-<p>Join in the classroom and link your github account to your SID. If your SID DOESN't appear in the list, contact me. </p>
 <h2 id="accept-lab-0">Accept Lab 0</h2>
-<p>Accept Lab 0 thourgh the link: <a href="https://classroom.github.com/a/tgW8fvsX">https://classroom.github.com/a/tgW8fvsX</a></p>
+<p>Accept Lab 0 thourgh the link: <a href="https://classroom.github.com/a/tgW8fvsX">https://classroom.github.com/a/tgW8fvsX</a>. Join our classroom and link your github account with your netid. If you don't see your netid in the list, tell me!</p>
 <h2 id="required-system">Required System</h2>
 <p>A Unix-like system!
-It can be:
-   1. Any Linux distribution (e.g., Ubuntu)
-   2. macOS
-   3. Windows Subsystem Linux, WSL (Click <a href="https://learn.microsoft.com/en-us/windows/wsl/install">here</a> to see how to install!)</p>
+It can be:</p>
+<ol>
+<li>Any Linux distribution (e.g., Ubuntu)</li>
+<li>macOS</li>
+<li>Windows Subsystem Linux, WSL (Click <a href="https://learn.microsoft.com/en-us/windows/wsl/install">here</a> to see how to install!). I suggest you all install Ubuntu 24.04. Because QEMU on the repository of Ubuntu 22.04 is with version 6.2, which is incompatible to current xv6. The 8.2 version QEMU in Ubuntu 24.04 works well. </li>
+</ol>
+<p>When you install using powershell command, change the command <code>wsl --install</code> to <code>wsl --install -d ubuntu-24.04</code> which will change Linux distribution you install. </p>
 <h2 id="required-tools">Required Tools</h2>
 <p>After you get your system set up, you should install some necessary tools for developing xv6. Run the following command in your command line (copy &amp; paste the command just following the $ sign).</p>
 <p>If you meet errors when downloading the requirements, check whether you update your package manager's index first. For example, if you are using Ubuntu, you need use <code>$ sudo apt update</code> to update your index.</p>
@@ -196,6 +196,8 @@ riscv64-linux-gnu-gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0
 </code></pre>
 <pre><code class="language-bash">$ riscv64-unknown-linux-gnu-gcc --version
 </code></pre>
+<h2 id="clone-your-repository">Clone your repository</h2>
+<p>After you accept the lab, you will get a repository for our lab 0, which has a name <code>lab0-***</code>. Clone this repo to your local machine. If you never used Github before (never set a SSH key for your account), please refer to <a href="#git-related-questions">here</a>. </p>
 <h2 id="compile">Compile</h2>
 <p>Get into the directory with your lab0 code.</p>
 <pre><code class="language-bash">$ cd /some/path/to/xv6-riscv-lab0
