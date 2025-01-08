@@ -6,23 +6,20 @@
 2. This is a demo for you to get familiar to the github classroom.
 3. Try this step-by-step demo and push your work to see whether you can achieve full score!
 
-## Join in our Github Classroom
-
-Click the link: [https://classroom.github.com/classrooms/193988062-ucr-cs153-25winter](https://classroom.github.com/classrooms/193988062-ucr-cs153-25winter)
-
-Join in the classroom and link your github account to your SID. If your SID DOESN't appear in the list, contact me. 
-
 ## Accept Lab 0
 
-Accept Lab 0 thourgh the link: [https://classroom.github.com/a/tgW8fvsX](https://classroom.github.com/a/tgW8fvsX)
+Accept Lab 0 thourgh the link: [https://classroom.github.com/a/tgW8fvsX](https://classroom.github.com/a/tgW8fvsX). Join our classroom and link your github account with your netid. If you don't see your netid in the list, tell me!
 
 ## Required System
 
 A Unix-like system!
 It can be:
-   1. Any Linux distribution (e.g., Ubuntu)
-   2. macOS
-   3. Windows Subsystem Linux, WSL (Click [here](https://learn.microsoft.com/en-us/windows/wsl/install) to see how to install!)
+
+1. Any Linux distribution (e.g., Ubuntu)
+2. macOS
+3. Windows Subsystem Linux, WSL (Click [here](https://learn.microsoft.com/en-us/windows/wsl/install) to see how to install!). I suggest you all install Ubuntu 24.04. Because QEMU on the repository of Ubuntu 22.04 is with version 6.2, which is incompatible to current xv6. The 8.2 version QEMU in Ubuntu 24.04 works well. 
+
+When you install using powershell command, change the command `wsl --install` to `wsl --install -d ubuntu-24.04` which will change Linux distribution you install. 
 
 ## Required Tools
 
@@ -86,6 +83,10 @@ $ riscv64-unknown-elf-gcc --version
 ```bash
 $ riscv64-unknown-linux-gnu-gcc --version
 ```
+
+## Clone your repository
+
+After you accept the lab, you will get a repository for our lab 0, which has a name `lab0-***`. Clone this repo to your local machine. If you never used Github before (never set a SSH key for your account), please refer to [here](#git-related-questions). 
 
 ## Compile 
 
