@@ -39,5 +39,51 @@ What is address? Assume you have a variable, like `a`.
 int a = 0xdeadbeef;
 ```
 
-This a should be stored in some place in the memory. We use "address" to find this place in the memory. 
+This `a` should be stored in some place in the memory. We use "address" to find this place in the memory. We can get this address by using operator `&`. 
 
+```c
+int a = 0xdeadbeef;
+
+int *a_ptr = &a;
+```
+
+Here, we declare another variable `a_ptr` with type `int *`, which means this variable is used for storing the address of an `int` type (which is `a` here). 
+
+You can print `a_ptr` just like other normal variables using format `%p` (`%p` is standing for 'pointer', just like `%d` for decimal number). 
+
+```c
+int a = 0xdeadbeef;
+int *a_ptr = &a;
+printf("a_ptr = %p\n", a_ptr);
+```
+
+My result is:
+```bash
+$ ./main
+a_ptr = 0x7ffe2cf0832c
+```
+
+Here, `0x7ffe2cf0832c` is an address and variable `a` is just stored at this location in the memory. Therefore, `0x7ffe2cf0832c` can be used to `point` to some position in the memory, that'w why it is called 'pointer'. 
+
+To use pointers accessing memory, you need another operator `*`.
+```c
+int a = 0xdeadbeef;
+int *a_ptr = &a;
+printf("a_ptr = %p\n", a_ptr);
+printf("a = 0x%x\n", *a_ptr);
+```
+
+Here, we use `*a_ptr` to access the value stored in the memory location represented by `a_ptr` (which is just the variable `a` in this case), and the result for this piece of code in my machine is:
+
+```bash
+$ ./main            
+a_ptr = 0x7ffdc0f4e46c
+a = 0xdeadbeef
+```
+
+This is just a basic introduction to what pointer is. There are a lot of materials introducing 'pointer' this important concept in the internet. When you don't know what a expression about pointer is, just take a little search on Google and you can find the result.
+
+e.g., do you know what is this type standing for?
+```c
+int* (*func_ptr)(int**, char*)
+```

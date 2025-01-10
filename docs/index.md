@@ -4,7 +4,7 @@
 
 Hi👋, welcome to the course page for *CS153 Design of Operating System, Winter 2025* for UC Riverside, whose lecture is hosted by Prof. [Heng Yin](https://www.cs.ucr.edu/~heng/). The laboratory section would be hosted by me, Zhaoqi Xiao. 
 
-There will be 3 lab assignments for this course starting from lab 1. You need to submit a short report on eLearn and a git commit on github classroom. 
+There will be 3 **individual** lab assignments for this course starting from lab 1. You need to submit a short report on eLearn and a git commit on github classroom. 
 
 ## Late Policy
 
@@ -14,7 +14,7 @@ There will be 3 lab assignments for this course starting from lab 1. You need to
 
 ## Lab Participation
 
-There will be 2 lab session per week, while you only need to take one which is more convenient to you. We will track the attendance in the first lab session after a new assignment is released (e.g., the lab in the next week, in which we will release lab 1). 
+There will be 2 lab sessions per week, while you only need to take one which is more convenient to you. We will track the attendance in the first lab session after a new assignment is released (e.g., the lab in the next week, in which we will release lab 1). 
 
 The left Q/A labs will not have attendance taken. You are free to come if you need help on your lab assignment. 
 
@@ -24,7 +24,10 @@ The left Q/A labs will not have attendance taken. You are free to come if you ne
 
 ## Supplementary Materials
 
-* [C language and pointers (Not done yet)](./lab-instructions/c-pointers.md)
+* [C language and pointers](./lab-instructions/c-pointers.md)
 * [Debug for xv6](https://gdjs2.cn/UCR-CS202-24Fall/lab-tutorials/debug/)
+* [How to resolve conflict on Github?](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/resolving-a-merge-conflict-on-github)
 * [xv6 Tutorial](https://pdos.csail.mit.edu/6.828/2024/)
 * [xv6 Book](https://pdos.csail.mit.edu/6.828/2024/xv6/book-riscv-rev4.pdf)
+* [What is RISC-V?](https://en.wikipedia.org/wiki/RISC-V)
+* [Why don't we use xv6-x86?](https://github.com/mit-pdos/xv6-public/blob/master/README)

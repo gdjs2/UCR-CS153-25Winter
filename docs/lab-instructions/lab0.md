@@ -51,7 +51,7 @@ $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/
 
 Next, install the RISC-V compiler [toolchain](https://github.com/riscv-software-src/homebrew-riscv):
 ```bash
-$ brew tap riscv/riscv
+$ brew tap riscv-software-src/riscv
 $ brew install riscv-tools
 ```
 
@@ -169,7 +169,7 @@ Add one line in the file `/Makefile`, just after line 141 and save.
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
-   $U/_hello-world\
+    $U/_hello-world\
 ```
 
 Now recompile the code using `make qemu`. After you see `init: starting sh`. You can type `ls` to check whether there is a new program naming `hello-world`. If there is, type command `hello-world` to run this program. 
