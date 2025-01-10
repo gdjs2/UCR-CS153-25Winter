@@ -48,6 +48,10 @@
 <li>
     <a href="../lab0/" class="dropdown-item">Lab 0 Instructions</a>
 </li>
+                                    
+<li>
+    <a href="../lab1/" class="dropdown-item">Lab 1 - System Call</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -129,7 +133,37 @@
 <p>What is address? Assume you have a variable, like <code>a</code>.</p>
 <pre><code class="language-c">int a = 0xdeadbeef;
 </code></pre>
-<p>This a should be stored in some place in the memory. We use "address" to find this place in the memory. </p></div>
+<p>This <code>a</code> should be stored in some place in the memory. We use "address" to find this place in the memory. We can get this address by using operator <code>&amp;</code>. </p>
+<pre><code class="language-c">int a = 0xdeadbeef;
+
+int *a_ptr = &amp;a;
+</code></pre>
+<p>Here, we declare another variable <code>a_ptr</code> with type <code>int *</code>, which means this variable is used for storing the address of an <code>int</code> type (which is <code>a</code> here). </p>
+<p>You can print <code>a_ptr</code> just like other normal variables using format <code>%p</code> (<code>%p</code> is standing for 'pointer', just like <code>%d</code> for decimal number). </p>
+<pre><code class="language-c">int a = 0xdeadbeef;
+int *a_ptr = &amp;a;
+printf(&quot;a_ptr = %p\n&quot;, a_ptr);
+</code></pre>
+<p>My result is:</p>
+<pre><code class="language-bash">$ ./main
+a_ptr = 0x7ffe2cf0832c
+</code></pre>
+<p>Here, <code>0x7ffe2cf0832c</code> is an address and variable <code>a</code> is just stored at this location in the memory. Therefore, <code>0x7ffe2cf0832c</code> can be used to <code>point</code> to some position in the memory, that'w why it is called 'pointer'. </p>
+<p>To use pointers accessing memory, you need another operator <code>*</code>.</p>
+<pre><code class="language-c">int a = 0xdeadbeef;
+int *a_ptr = &amp;a;
+printf(&quot;a_ptr = %p\n&quot;, a_ptr);
+printf(&quot;a = 0x%x\n&quot;, *a_ptr);
+</code></pre>
+<p>Here, we use <code>*a_ptr</code> to access the value stored in the memory location represented by <code>a_ptr</code> (which is just the variable <code>a</code> in this case), and the result for this piece of code in my machine is:</p>
+<pre><code class="language-bash">$ ./main            
+a_ptr = 0x7ffdc0f4e46c
+a = 0xdeadbeef
+</code></pre>
+<p>This is just a basic introduction to what pointer is. There are a lot of materials introducing 'pointer' this important concept in the internet. When you don't know what a expression about pointer is, just take a little search on Google and you can find the result.</p>
+<p>e.g., do you know what is this type standing for?</p>
+<pre><code class="language-c">int* (*func_ptr)(int**, char*)
+</code></pre></div>
             </div>
         </div>
 

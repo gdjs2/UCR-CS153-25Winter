@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaoqi Xiao">
+        <link rel="canonical" href="http://gdjs2.cn/UCR-CS153-25Winter/lab-instructions/lab1/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Lab 1 - System Call - CS153 Design of Operating System - Lab Session</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">CS153 Design of Operating System - Lab Session</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">CS153 - Design of Operating System - Lab Session - 25 Winter</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Lab instructions</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../c-pointers/" class="dropdown-item">Introduction to C language and Pointers</a>
+</li>
+                                    
+<li>
+    <a href="../lab0/" class="dropdown-item">Lab 0 Instructions</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Lab 1 - System Call</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../lab0/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#lab-1-system-call" class="nav-link">Lab 1 - System Call</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#background" class="nav-link">Background</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#your-task" class="nav-link">Your Task</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="lab-1-system-call">Lab 1 - System Call</h1>
+<h2 id="background">Background</h2>
+<h3 id="what-is-system-call">What is system call?</h3>
+<p>A system call is a way for programs to interact with the operating system. It provides an interface between a process and the operating system, allowing the process to request high-privilege services such as file operatios, process control and communication. </p>
+<p>Because it involves two parties - the user program (low privilege) and the operating system (high privilege), it is bound to have a transition of privileges. </p>
+<h3 id="how-does-system-call-work">How does system call work?</h3>
+<p>You can call a system call (e.g., exit(), which is used for terminating current program) in a user space program (like in our hello-world.c program). Let's just use our hello-world program and change it a little bit.</p>
+<pre><code class="language-c">// hello-world.c in /user/
+#include &quot;kernel/types.h&quot;
+#include &quot;user/user.h&quot;
+
+int main(int argc, char **argv) {
+    printf(&quot;Hello, world!\n&quot;);
+    exit(0);
+    printf(&quot;?.? Dead code ?.?\n&quot;);
+}
+</code></pre>
+<p>Also, we need to add a line in the <code>Makefile</code>. This modification adds a user space program, making program <code>make</code> know that it should compile the program <code>hello-world.c</code> under <code>/user/</code>. <code>$U</code> stands for <code>/user/</code> directory. </p>
+<pre><code class="language-makefile">... line 138
+    $U/_grind\
+    $U/_wc\
+    $U/_zombie\
+    $U/_hello-world\
+</code></pre>
+<p>Let's compile this file and see what will happen. </p>
+<pre><code class="language-bash">$ make qemu
+riscv64-linux-gnu-gcc    -c -o kernel/entry.o kernel/entry.S
+...
+xv6 kernel is booting
+
+hart 2 starting
+hart 1 starting
+init: starting sh
+$ 
+</code></pre>
+<p>Then use <code>ls</code> command listing all available programs in user space. </p>
+<pre><code class="language-bash">$ ls
+.              1 1 1024
+..             1 1 1024
+README         2 2 2292
+cat            2 3 34256
+echo           2 4 33184
+forktest       2 5 16168
+grep           2 6 37520
+init           2 7 33640
+kill           2 8 33096
+ln             2 9 32912
+ls             2 10 36280
+mkdir          2 11 33152
+rm             2 12 33144
+sh             2 13 54720
+stressfs       2 14 34040
+usertests      2 15 179344
+grind          2 16 49392
+wc             2 17 35216
+zombie         2 18 32520
+hello-world    2 19 32656
+console        3 20 0
+</code></pre>
+<p>We can check there is a hello-world program. Then we can execute it by:</p>
+<pre><code class="language-bash">$ hello-world
+Hello, world!
+</code></pre>
+<p>What happened? The code after <code>exit(0)</code> is just ignored. The reason for this is the program just exits at <code>exit(0)</code> and of course the left code wouldn't be executed forever. </p>
+<p>Ok, now let's just see what will happend in the call of <code>exit(0)</code>. </p>
+<p>The definition of <code>exit()</code> function is in the file <code>/user/user.h</code>.</p>
+<pre><code class="language-c">...
+// system calls
+int fork(void);
+int exit(int) __attribute__((noreturn));
+int wait(int*);
+...
+</code></pre>
+<p>We can see that its return value is an integer and it receives an inteter as its parameter. The <code>__attribute__((noreturn))</code> part is a compiler annotation telling the compilers (gcc &amp; clang both support this) this function wouldn't return. </p>
+<p>However, this is just the definition of this function. In C/C++, we know that a definition of function isn't executable. Therefore, where is the implementation of this function?</p>
+<p>The secret is in the file <code>/user/usys.pl</code>. This file is a Perl program. Perl is just like Python, which is also an interpreter-based language. </p>
+<p>This <code>usys.pl</code> would generate the 'trigger' for function calls. This Perl script might be dense, but once you compile xv6 using <code>make qemu</code>, you can find the file generated by it, which is <code>/user/usys.S</code>. </p>
+<pre><code class="language-asm"># generated by usys.pl - do not edit
+#include &quot;kernel/syscall.h&quot;
+...
+.global exit
+exit:
+ li a7, SYS_exit
+ ecall
+ ret
+...
+</code></pre>
+<p>Generally, this <code>/user/usys.S</code>, which is an assembly code for RISC-V, has done two things-including <code>/kernel/syscall.h</code> and making many global symbols (declared by <code>.global **</code>, e.g., <code>.global exit</code> defines a symbol <code>exit</code>) with corresponding functions' assembly code.</p>
+<p>Let's just use the example of <code>exit()</code>.</p>
+<pre><code class="language-asm">.global exit        # declare a symbol, you can image it as a variable
+exit:               # this is a tag, meaning symbol exit points to here
+ li a7, SYS_exit    # load immediate value, SYS_exit, into register a7
+ ecall              # system call instruction in RISC-V
+ ret                # return
+</code></pre>
+<p>There are still several questions in this <em>small</em> piece of assembly code.</p>
+<ol>
+<li>Where is the immediate value <code>SYS_exit</code>?</li>
+<li>Where does the program go after we use <code>ecall</code> function?</li>
+</ol>
+<p>For the first question, let's get back to the first thing <code>usys.S</code> has done-the included file <code>/kernel/syscall.h</code></p>
+<pre><code class="language-c">// System call numbers
+#define SYS_fork    1
+#define SYS_exit    2
+#define SYS_wait    3
+...
+</code></pre>
+<p>See? All the immediate values are define here and included into the assembly code by <code>#include "kernel/syscall.h"</code>. </p>
+<p>For the second question, it's a little complicated. If you want to learn more, you can refer to <a href="https://pdos.csail.mit.edu/6.1810/2024/xv6/book-riscv-rev4.pdf">xv6 book</a> chapter 4.3. In short, <code>ecall</code> instruction in user mode (now we are running <code>hello-world</code>, which is a userspace program) will trap the execution into <code>uservec()</code> function in <code>trampoline.S</code> and further get into <code>usertrap()</code> function in <code>/kernel/trap.c</code>. </p>
+<p>So far, the transition between user space and kernel space has done. The CPU's privilege mode has been set to 1, which is supervisor mode (S-mode). However, the memory page table hasn't been set to kernel's (you can think about the reason after you learn more). </p>
+<pre><code class="language-c">void
+usertrap(void)
+{
+...
+    intr_on();
+
+    syscall();
+  } else if((which_dev = devintr()) != 0){
+...
+}
+</code></pre>
+<p>Following function <code>usertrap()</code> in <code>/kernel/trap.c</code>, it finally goes to <code>syscall(void)</code> function in <code>/kernel/syscall.c</code>. This function is easy to understand now (T.T compared to previous assembly code). </p>
+<pre><code class="language-c">void
+syscall(void)
+{
+  int num;
+  struct proc *p = myproc();
+
+  num = p-&gt;trapframe-&gt;a7;
+  if(num &gt; 0 &amp;&amp; num &lt; NELEM(syscalls) &amp;&amp; syscalls[num]) {
+    // Use num to lookup the system call function for num, call it,
+    // and store its return value in p-&gt;trapframe-&gt;a0
+    p-&gt;trapframe-&gt;a0 = syscalls[num]();
+  } else {
+    printf(&quot;%d %s: unknown sys call %d\n&quot;,
+            p-&gt;pid, p-&gt;name, num);
+    p-&gt;trapframe-&gt;a0 = -1;
+  }
+}
+</code></pre>
+<p>At line 137, we got the number stored in user program's register <code>a7</code>. Feel familiar? Yes! It was stored a little before in the function <code>exit()</code> of <code>/user/usys.S</code>.</p>
+<pre><code class="language-asm">.global exit        # declare a symbol, you can image it as a variable
+exit:               # this is a tag, meaning symbol exit points to here
+ li a7, SYS_exit    # load immediate value, SYS_exit, into register a7 HERE!!!!!!!!!
+ ecall              # system call instruction in RISC-V
+ ret                # return
+</code></pre>
+<p><code>SYS_exit</code>, which is just the SYSTEM CALL NUMBER, was stored in user program and then read by kernel here. Magic, right?</p>
+<p>Then there is a <code>if</code> statement judging whetehr the syscall number is greater than 0 and less than the number of elements in <code>syscalls</code> table. OK, now let's take a look at <code>syscalls</code> table. (It's from line 107 - 129)</p>
+<pre><code class="language-c">// An array mapping syscall numbers from syscall.h
+// to the function that handles the system call.
+static uint64 (*syscalls[])(void) = {
+[SYS_fork]    sys_fork,
+[SYS_exit]    sys_exit,
+...
+};
+</code></pre>
+<p>Here, this type might be hard to understand. To be simple, it's an array and each element in this array is a <a href="https://www.geeksforgeeks.org/function-pointer-in-c/"><em>function pointer</em></a>. The functions should have type of <code>uint64 function(void)</code>, which means these functions receive no arguments and return a single unsigned 64-bits integer. </p>
+<p>Then, what's the values in this array? Let's use a simple C program example.</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    int arr[] = {
+        [0] 10,
+        [1] 100,
+        [3] 1000,
+        [5] 0xdeadbeef
+    };
+
+    int len = sizeof(arr) / sizeof(int);
+    printf(&quot;Length of arr: %d\n&quot;, len);
+    for (int i = 0; i &lt; len; ++i) {
+        printf(&quot;arr[%d] = %d\n&quot;, i, arr[i]);
+    }
+}
+</code></pre>
+<p>You can simply copy this code and run it on your computer. The result should be:</p>
+<pre><code class="language-bash">$ ./main
+Length of arr: 6
+arr[0] = 10
+arr[1] = 100
+arr[2] = 0
+arr[3] = 1000
+arr[4] = 0
+arr[5] = -559038737
+</code></pre>
+<p>Now, it's pretty obvious! The numbers in <code>[]</code> is the index and the number after each index is it's corresponding value. For example, we stored 10 to position 0 and 1000 to position 3. </p>
+<blockquote>
+<p>Note: this semantic isn't officially supported by C++, which means even it's a valid grammer in C, it might be failed in compilation for some C++ compilers. </p>
+</blockquote>
+<p>Now, let's come back to the <code>syscalls</code> array. There are some functions and each function is stored at the position of its system call number. For example, the syscall number for <code>exit()</code> is 2, which you can find in <code>/kernel/syscall.h</code>. Therefore <code>syscalls[2]</code> will be a function pointer pointing to <code>sys_exit()</code>. </p>
+<p>We are close!</p>
+<p>Then, what is <code>sys_exit()</code>? It's in file <code>/kernel/sysproc.c</code> and you can find it's pretty short. </p>
+<pre><code class="language-c">uint64
+sys_exit(void)
+{
+  int n;
+  argint(0, &amp;n);
+  exit(n);
+  return 0;  // not reached
+}
+</code></pre>
+<p>Do you still remember what the definition of <code>exit()</code> syscall is in the user space? It's <code>int exit(int) __attribute__((noreturn))</code>. It has one argument and one return value, both are of integer type. But now, when coming to <code>sys_exit()</code>, the return value is still there, but where is our argument?</p>
+<p>Here, we need to explain why we cannot directly pass our parameters using our normal way (i.e., <code>sys_exit(int)</code>). It is because when we stores the function pointers to <code>syscalls[]</code>, all functions should have the same type. However, different system call has their own type of parameters. Hence, for a more convenient call of system calls of different arguments type, we make all of them with non-argument and let them parse their own arguments in <code>sys_**()</code>. (No matter you understand or not, I'm confused now :( )</p>
+<p>In the first line of the function, it prepare a value <code>n</code> for the argument passed for <code>exit()</code> syscall. <code>argint(0, &amp;n)</code> fetches the first value in the calling argument and stores it into variable <code>n</code>. Then it execute <code>exit(n)</code>. (Can it be the last function containing <code>exit</code>????)</p>
+<p>OK, now let's see the very LAST <code>exit()</code> function. It's in the file <code>/kernel/proc.c</code>. </p>
+<pre><code class="language-c">// Exit the current process.  Does not return.
+// An exited process remains in the zombie state
+// until its parent calls wait().
+void
+exit(int status)
+{
+  struct proc *p = myproc();
+
+  if(p == initproc)
+    panic(&quot;init exiting&quot;);
+
+  // Close all open files.
+  for(int fd = 0; fd &lt; NOFILE; fd++){
+    if(p-&gt;ofile[fd]){
+      struct file *f = p-&gt;ofile[fd];
+      fileclose(f);
+      p-&gt;ofile[fd] = 0;
+    }
+  }
+
+  begin_op();
+  iput(p-&gt;cwd);
+  end_op();
+  p-&gt;cwd = 0;
+
+  acquire(&amp;wait_lock);
+
+  // Give any children to init.
+  reparent(p);
+
+  // Parent might be sleeping in wait().
+  wakeup(p-&gt;parent);
+
+  acquire(&amp;p-&gt;lock);
+
+  p-&gt;xstate = status;
+  p-&gt;state = ZOMBIE;
+
+  release(&amp;wait_lock);
+
+  // Jump into the scheduler, never to return.
+  sched();
+  panic(&quot;zombie exit&quot;);
+}
+</code></pre>
+<p>This function is well documented so I wouldn't write a lot to explain it. But we can see, in the end, it calls <code>sched()</code> which is the process scheduler. When it gets into the scheduler, the other ready processes will be run by the scheduler. </p>
+<p>So, question is, where is our argument, the status for exit? It is stored in <code>p-&gt;xstate</code>, which is used for storing the exit status specially. </p>
+<blockquote>
+<p>I wrote all of this by my own. Hopefully it can help you understand how function call works. T_T</p>
+</blockquote>
+<h2 id="your-task">Your Task</h2>
+<p>There is only one task for you, easy, not much work to do and only a few dozen lines of code could finish it. </p>
+<p>Now, you may (or may not) know that, <code>fork()</code> will create a child process. Now, suppose you have one parent process with PID=1 and two child processes of him, PID=2 and PID=3. What if your parent want to wait for these two child processes finishing their work?</p>
+<p>You can use <code>wait()</code> syscall. <code>wait()</code> will return once there is one child process exits (in another word, becomes <em>zombie</em> as we saw in <code>exit()</code>) after cleaning up all the memory for the child process. </p>
+<p>Easy to understand, right?</p>
+<p>Your task, is adding another system call with user space definition</p>
+<pre><code class="language-c">int waitpid(int *status, int pid, int option);
+</code></pre>
+<p>Explanation for parameters:</p>
+<ol>
+<li><code>int *status</code>, this is a pointer, the status of exited program should be stored into this location, just like <code>wait(int*)</code>. </li>
+<li><code>int pid</code>, instead of waiting for arbitrary child process terminating, <code>waitpid()</code> should only wait for specific child with <code>pid</code>. There are some special values for it:</li>
+<li>If pid &lt;= 0, which means it's an invalid pid in xv6 (xv6 has a pid &gt; 0), your function should work as <code>wait(int*)</code>, which means it will return whenever a child process exits. </li>
+<li>If pid &gt; 0, but the process with pid isn't </li>
+<li></li>
+</ol></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

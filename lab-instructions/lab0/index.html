@@ -48,6 +48,10 @@
 <li>
     <a href="./" class="dropdown-item active" aria-current="page">Lab 0 Instructions</a>
 </li>
+                                    
+<li>
+    <a href="../lab1/" class="dropdown-item">Lab 1 - System Call</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -64,7 +68,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">
+                                <a rel="next" href="../lab1/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -174,7 +178,7 @@ It can be:</p>
 <pre><code class="language-bash">$ /bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;
 </code></pre>
 <p>Next, install the RISC-V compiler <a href="https://github.com/riscv-software-src/homebrew-riscv">toolchain</a>:</p>
-<pre><code class="language-bash">$ brew tap riscv/riscv
+<pre><code class="language-bash">$ brew tap riscv-software-src/riscv
 $ brew install riscv-tools
 </code></pre>
 <p>The brew formula may not link into /usr/local. You will need to update your shell's rc file (e.g. <a href="https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html">~/.bashrc</a>) to add the appropriate directory to <a href="https://www.linfo.org/path_env_var.html">$PATH</a>.</p>
@@ -262,7 +266,7 @@ int main() {
     $U/_grind\
     $U/_wc\
     $U/_zombie\
-   $U/_hello-world\
+    $U/_hello-world\
 </code></pre>
 <p>Now recompile the code using <code>make qemu</code>. After you see <code>init: starting sh</code>. You can type <code>ls</code> to check whether there is a new program naming <code>hello-world</code>. If there is, type command <code>hello-world</code> to run this program. </p>
 <pre><code class="language-bash">$ hello-world
