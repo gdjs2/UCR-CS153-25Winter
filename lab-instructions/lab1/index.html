@@ -100,6 +100,18 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-by-step-instruction" class="nav-link">Step-by-Step Instruction</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#grading-policy" class="nav-link">Grading Policy</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#what-to-write-in-report" class="nav-link">What to write in report</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -125,6 +137,9 @@ int main(int argc, char **argv) {
 }
 </code></pre>
 <p>Also, we need to add a line in the <code>Makefile</code>. This modification adds a user space program, making program <code>make</code> know that it should compile the program <code>hello-world.c</code> under <code>/user/</code>. <code>$U</code> stands for <code>/user/</code> directory. </p>
+<blockquote>
+<p>What is user space program and what is kernel space program? If you take a look at the </p>
+</blockquote>
 <pre><code class="language-makefile">... line 138
     $U/_grind\
     $U/_wc\
@@ -299,7 +314,9 @@ arr[5] = -559038737
 </blockquote>
 <p>Now, let's come back to the <code>syscalls</code> array. There are some functions and each function is stored at the position of its system call number. For example, the syscall number for <code>exit()</code> is 2, which you can find in <code>/kernel/syscall.h</code>. Therefore <code>syscalls[2]</code> will be a function pointer pointing to <code>sys_exit()</code>. </p>
 <p>We are close!</p>
-<p>Then, what is <code>sys_exit()</code>? It's in file <code>/kernel/sysproc.c</code> and you can find it's pretty short. </p>
+<p>Then, what is <code>sys_exit()</code>? It's in file <code>/kernel/sysproc.c</code> and you can find it's pretty short. But before we get into the implementation of the function, we should know how can an array in <code>/kernel/syscall.c</code> use a function defined in <code>/kernel/sysproc.c</code>. If we want to use functions from another file, we typically define it in a header file and implement it in a source file. Whenever we want to use it, include the header file and call it. During the compilcation, we just need to pass these two source files to the compiler, it will find the function and link them. But... the situation here is a little different. As there is no header file defining the <code>sys_**</code> functions, functions in <code>/kernel/syscall.c</code> cannot find them. So, if you pay attention to the code just before the <code>syscalls[]</code> table, you will see there are a lot of <code>sys_**</code> functions defined as extern function. The key word <code>extern</code> tells the compiler, "this function's implementation is not here, but it will be somewhere else. I will give the source file including this function to you later. Now, you just assume you have already had the implemetation of this function. " </p>
+<p>Good? To learn more about <code>extern</code> key word, you can refer this <a href="https://stackoverflow.com/questions/856636/effects-of-the-extern-keyword-on-c-functions">stack overflow thread</a>. </p>
+<p>Now let's get into the implementation of <code>sys_exit()</code>.</p>
 <pre><code class="language-c">uint64
 sys_exit(void)
 {
@@ -374,11 +391,67 @@ exit(int status)
 <p>Explanation for parameters:</p>
 <ol>
 <li><code>int *status</code>, this is a pointer, the status of exited program should be stored into this location, just like <code>wait(int*)</code>. </li>
-<li><code>int pid</code>, instead of waiting for arbitrary child process terminating, <code>waitpid()</code> should only wait for specific child with <code>pid</code>. There are some special values for it:</li>
+<li><code>int pid</code>, instead of waiting for arbitrary child process terminating, <code>waitpid()</code> should only wait for specific child with <code>pid</code>. To be more specific:</li>
 <li>If pid &lt;= 0, which means it's an invalid pid in xv6 (xv6 has a pid &gt; 0), your function should work as <code>wait(int*)</code>, which means it will return whenever a child process exits. </li>
-<li>If pid &gt; 0, but the process with pid isn't </li>
-<li></li>
-</ol></div>
+<li>If pid &gt; 0, but the process with <code>pid</code> isn't the child of current process, your function should return -1. </li>
+<li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, but the child process with <code>pid</code> isn't running, your funcion should return -1.</li>
+<li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, the child process is running at the same time, your function should wait until its status becomes <code>zombie</code>. Then, clean up the memory the child process is using (just like in <code>wait()</code>) and return the status of the child process. </li>
+<li><code>option</code>, we'd play something function for this option. The option in Linux kernel is complex and it defines many macro for different function (you can take a look from <a href="https://linux.die.net/man/2/waitpid">here</a>). We don't need that complex option. Instead, we'd just use several values to change the operation of the function.</li>
+<li>If option = 0, or there is no option argument passing in, just run as normal (do nothing extra).</li>
+<li>If option = 1, use <code>printf()</code> (you may be curious about this <code>printf()</code>, this <code>printf()</code> is different from the one we used in normal program, this one is defined under the kernel space of xv6, even though they have the same function.) to output a line of <code>OPTION=1</code> and a new line character <code>\n</code>. Then your function should do nothing and return 0.</li>
+<li>If option = 2, do as normal, but when you store the status code of the child process, don't use the exact one, use a fake one <code>0x33</code> and the other things should be the same. </li>
+<li>If option = 3, do nothing and return immediately with return value -1. </li>
+</ol>
+<h2 id="step-by-step-instruction">Step-by-Step Instruction</h2>
+<blockquote>
+<p>Attention: as C program compilation is very flexible, it's not necessary for you to following the instruction so strictly. You can design, create, define and implement the function as you wish as long as it can work properly. If you aren't familiar to C programming or you haven't understand the background very well, you can start Lab 1 by just following the instructions here. </p>
+</blockquote>
+<p>So, following our mind in the background, let's start from user space. </p>
+<hr />
+<p>The first thing is adding a definition for our syscall in user space. It's inside the file <code>/user/user.h</code>. </p>
+<blockquote>
+<p>Don't understand the different between header file (.h file) and source file (.c)? Take a look at <a href="http://www.math.uaa.alaska.edu/~afkjm/csce211/handouts/SeparateCompilation.pdf">here</a> (from UAA). </p>
+</blockquote>
+<p>Take a look at our required user space definition for the system call and finish this part. </p>
+<hr />
+<p>The second thing is adding the syscall's implementation under user space. Now, take a little review in background, where is the syscalls' implementation in user space?</p>
+<p>Remember that Perl script and generated assembly code? Yes, it's in <code>/user/usys.S</code>. However, this file is not written directly by us, instead it's generated by the Perl script. Don't worry if you don't understand the Perl script. Take a look at the script file <code>/user/usys.pl</code> and it's not hard to understand, right? The script sets a subroutine <code>entry</code> and it will print the corresponding entry assembly code for each syscalls defined here. Therefore, in order to add our <code>waitpid()</code> syscall, we need to add an entry here as well. </p>
+<hr />
+<p>OK, now you may have noticed that, in <code>/user/usys.pl</code>, it includes a file <code>/kernel/syscall.h</code> and it uses variable <code>SYS_${name}</code> defined in it. We have seen this file before and there are several system calls and its syscall number defined. So, pick up a desirable system call number and define it in <code>/kernel/syscall.h</code>. </p>
+<blockquote>
+<p>There are 21 system calls defined in xv6 and they have consecutive syscall numbers. It's natural for us picking a number 22 for our <code>waitpid()</code> syscall. But, is it really necessary? Can I choose other numbers here and what's the influence if I choose a very large number? If you cannot come up with an answer, remind yourself a little about the <code>syscalls[]</code> array we described in the background. </p>
+</blockquote>
+<hr />
+<p>As you may notice, we are in the kernel level now. So, what is next step? It looks like all the clues stop here. </p>
+<p>It's the time to review how a system call is triggered by the kernel-the trap, right? There is a trap file and it calls something related to <code>syscall()</code> (if you don't remember, just go back to the background). </p>
+<p>Let go to <code>usertrap()</code> function and it seems there is nothing we can do here and it will finally get into function <code>syscall()</code> in <code>/kernel/syscall.c</code>. Here, we notice a old friend, the <code>syscalls[]</code> table, right? We have defined our syscall numbers in <code>/kernel/syscall.h</code>, therefore we have already had a constant number variable with name <code>SYS_**</code> corresponding to our syscall and here, we need to associate the syscall number with a concrete system call function, just like the association between the number <code>SYS_exit</code> (i.e., this number is 2 as we find in <code>syscall.h</code>) and <code>sys_exit()</code> function. </p>
+<hr />
+<p>OK, we make a connection between them, but wait, where is our system call function? </p>
+<p>Firstly, there are some <code>extern</code> function defined just before this <code>syscalls[]</code> table, in order for our table can find the function, we should define an extern function corresponding to our <code>waitpid()</code> syscall here as well. </p>
+<p>Then, let's find where <code>sys_exit()</code> is and it's in the file <code>/kernel/sysproc.c</code>. Do you remember, here, the <code>sys_exit()</code> prepare the arguments for the real <code>exit()</code> function. Similarly, we need to define a function here preparing arguments for the real <code>waitpid()</code> function. </p>
+<p>Emmm... but the question is, we can learn from <code>sys_exit()</code> that if we want to fetch a integer from the argument, we need to use <code>argint()</code>. We have <code>pid</code> and <code>option</code> in integer, but how can I fetch a type <code>int*</code> for the argument? Don't worry, do you still remember <code>wait(int* status)</code> function call? There is a pointer as well! So, take a look at that function and you can find what you need. </p>
+<p>Then, just finish this part by yourself. </p>
+<hr />
+<p>Now, we come to the most challenge part in the Lab and you need to implement the most of your code here, by yourself. We can follow the <code>sys_exit()</code> and it will call <code>exit(int)</code> in <code>/kernel/proc.c</code>. Similarly, you can define your <code>waitpid()</code> function here. </p>
+<p>Then, what to do? The most intuitive thing is that you can copy the code from <code>wait(int*)</code> function as they perform two similar things. Now, it's time to take a look at <a href="#your-task">your tasks</a> and implement it according to the requirements. </p>
+<blockquote>
+<p>If you meet any confusion during finishing the Lab, don't hesitate to ask! It might be my bad. Maybe I made an unreasonable requirement or I miss something in the code. </p>
+</blockquote>
+<h2 id="grading-policy">Grading Policy</h2>
+<p>10 pts in total.</p>
+<p>2 pts for the attendance. </p>
+<p>8 pts for the Lab code (as shown in autograder if you submit your report). If you don't have a report submitted, your grade for the code will receive a 50% penalty. </p>
+<p>We reserve the rights to grade your Lab according to your report in any situation. You can make a request for grading your Lab just according to your report if you cannot submit a runnable code. But we can't ensure we will give you any grade. </p>
+<p>We may also grade your assignment just according to your report (which means we will give up your grade in autograder) if we found any <strong>SENSITIVE</strong> code in your work or we find some unmatch performance for you between the labs and lectures. To avoid this case, understand and following the instruction well, write the code by yourself and never share your code with others. </p>
+<h2 id="what-to-write-in-report">What to write in report</h2>
+<p>We don't expect a very detailed report. Keep it in 2-3 pages. You don't need to copy, paste and explain your code in the report, as we can find them in your repo. </p>
+<p>Instead, you need to explain</p>
+<ol>
+<li>Which files you modified and the reason for the modification. </li>
+<li>Is there any difficulty you met and how do you solve them. </li>
+<li>If let you pick some special functions for more options, what will you choose and do you have some reality reason for this choice. (e.g., there are many options for <code>waitpid()</code> in the real world Linux and they all have their corresponding existing reasons). </li>
+</ol>
+<p>You can add other things in the report as well if you like. </p></div>
             </div>
         </div>
 
