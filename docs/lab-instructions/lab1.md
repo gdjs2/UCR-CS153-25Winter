@@ -346,7 +346,7 @@ Easy to understand, right?
 Your task, is adding another system call with user space definition
 
 ```c
-int waitpid(int *status, int pid, int option);
+int waitpid(int *status, int pid, int options);
 ```
 
 Explanation for parameters:
@@ -357,11 +357,11 @@ Explanation for parameters:
 	2. If pid > 0, but the process with `pid` isn't the child of current process, your function should return -1. 
 	3. If pid > 0 and the process with `pid` is the child of current process, but the child process with `pid` isn't running, your funcion should return -1.
 	4. If pid > 0 and the process with `pid` is the child of current process, the child process is running at the same time, your function should wait until its status becomes `zombie`. Then, clean up the memory the child process is using (just like in `wait()`) and return the status of the child process. 
-3. `option`, we'd play something function for this option. The option in Linux kernel is complex and it defines many macro for different function (you can take a look from [here](https://linux.die.net/man/2/waitpid)). We don't need that complex option. Instead, we'd just use several values to change the operation of the function.
-	1. If option = 0 just run as normal (do nothing extra).
-	2. If option = 1, use `printf()` (you may be curious about this `printf()`, this `printf()` is different from the one we used in normal program, this one is defined under the kernel space of xv6, even though they have the same function.) to output a line of `OPTION=1` and a new line character `\n`. Then your function should do nothing and return 0.
-	3. If option = 2, do as normal, but when you store the status code of the child process, don't use the exact one, use a fake one `0x33` and the other things should be the same. 
-	4. If option = 3, do nothing and return immediately with return value -1. 
+3. `options`, we'd play something in the function for this options. The `options` in Linux kernel is complex and it defines many macro for different function (you can take a look from [here](https://linux.die.net/man/2/waitpid)). We don't need that complex `options`. Instead, we'd just use several values to change the operation of the function.
+	1. If `options == 0` just run as normal (do nothing extra).
+	2. If `options == 1`, use `printf()` (you may be curious about this `printf()`, this `printf()` is different from the one we used in normal program, this one is defined under the kernel space of xv6, even though they have the same function.) to output a line of `OPTIONS=1` and a new line character `\n`. Then your function should do nothing and return 0.
+	3. If `options == 2`, do as normal, but when you store the status code of the child process, don't use the exact one, use a fake one `0x33` and the other things should be the same. 
+	4. If `options == 3`, do nothing and return immediately with return value -1. 
 
 ## Step-by-Step Instruction
 
