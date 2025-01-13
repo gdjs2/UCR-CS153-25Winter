@@ -348,6 +348,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#accept-your-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accept Your Assignment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#background" class="md-nav__link">
     <span class="md-ellipsis">
       Background
@@ -459,6 +468,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#accept-your-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accept Your Assignment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#background" class="md-nav__link">
     <span class="md-ellipsis">
       Background
@@ -543,6 +561,9 @@
 
 
 <h1 id="lab-1-system-call">Lab 1 - System Call</h1>
+<h2 id="accept-your-assignment">Accept Your Assignment</h2>
+<p><a href="https://classroom.github.com/a/c8VO7Hjn">https://classroom.github.com/a/c8VO7Hjn</a></p>
+<p><strong>Due: Sunday, Feb 2nd, 2025, 23:59, PST</strong></p>
 <h2 id="background">Background</h2>
 <h3 id="what-is-system-call">What is system call?</h3>
 <p>A system call is a way for programs to interact with the operating system. It provides an interface between a process and the operating system, allowing the process to request high-privilege services such as file operatios, process control and communication. </p>
@@ -982,7 +1003,7 @@ arr<span class="o">[</span><span class="m">5</span><span class="o">]</span><span
 <p>You can use <code>wait()</code> syscall. <code>wait()</code> will return once there is one child process exits (in another word, becomes <em>zombie</em> as we saw in <code>exit()</code>) after cleaning up all the memory for the child process. </p>
 <p>Easy to understand, right?</p>
 <p>Your task, is adding another system call with user space definition</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">waitpid</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">option</span><span class="p">);</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">waitpid</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
 </code></pre></div></td></tr></table></div>
 <p>Explanation for parameters:</p>
 <ol>
@@ -994,11 +1015,11 @@ arr<span class="o">[</span><span class="m">5</span><span class="o">]</span><span
 <li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, the child process is running at the same time, your function should wait until its status becomes <code>zombie</code>. Then, clean up the memory the child process is using (just like in <code>wait()</code>) and return the status of the child process. </li>
 </ol>
 </li>
-<li><code>option</code>, we'd play something function for this option. The option in Linux kernel is complex and it defines many macro for different function (you can take a look from <a href="https://linux.die.net/man/2/waitpid">here</a>). We don't need that complex option. Instead, we'd just use several values to change the operation of the function.<ol>
-<li>If option = 0 just run as normal (do nothing extra).</li>
-<li>If option = 1, use <code>printf()</code> (you may be curious about this <code>printf()</code>, this <code>printf()</code> is different from the one we used in normal program, this one is defined under the kernel space of xv6, even though they have the same function.) to output a line of <code>OPTION=1</code> and a new line character <code>\n</code>. Then your function should do nothing and return 0.</li>
-<li>If option = 2, do as normal, but when you store the status code of the child process, don't use the exact one, use a fake one <code>0x33</code> and the other things should be the same. </li>
-<li>If option = 3, do nothing and return immediately with return value -1. </li>
+<li><code>options</code>, we'd play something in the function for this options. The <code>options</code> in Linux kernel is complex and it defines many macro for different function (you can take a look from <a href="https://linux.die.net/man/2/waitpid">here</a>). We don't need that complex <code>options</code>. Instead, we'd just use several values to change the operation of the function.<ol>
+<li>If <code>options == 0</code> just run as normal (do nothing extra).</li>
+<li>If <code>options == 1</code>, use <code>printf()</code> (you may be curious about this <code>printf()</code>, this <code>printf()</code> is different from the one we used in normal program, this one is defined under the kernel space of xv6, even though they have the same function.) to output a line of <code>OPTIONS=1</code> and a new line character <code>\n</code>. Then your function should do nothing and return 0.</li>
+<li>If <code>options == 2</code>, do as normal, but when you store the status code of the child process, don't use the exact one, use a fake one <code>0x33</code> and the other things should be the same. </li>
+<li>If <code>options == 3</code>, do nothing and return immediately with return value -1. </li>
 </ol>
 </li>
 </ol>
