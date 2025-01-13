@@ -995,7 +995,7 @@ arr<span class="o">[</span><span class="m">5</span><span class="o">]</span><span
 </ol>
 </li>
 <li><code>option</code>, we'd play something function for this option. The option in Linux kernel is complex and it defines many macro for different function (you can take a look from <a href="https://linux.die.net/man/2/waitpid">here</a>). We don't need that complex option. Instead, we'd just use several values to change the operation of the function.<ol>
-<li>If option = 0, or there is no option argument passing in, just run as normal (do nothing extra).</li>
+<li>If option = 0 just run as normal (do nothing extra).</li>
 <li>If option = 1, use <code>printf()</code> (you may be curious about this <code>printf()</code>, this <code>printf()</code> is different from the one we used in normal program, this one is defined under the kernel space of xv6, even though they have the same function.) to output a line of <code>OPTION=1</code> and a new line character <code>\n</code>. Then your function should do nothing and return 0.</li>
 <li>If option = 2, do as normal, but when you store the status code of the child process, don't use the exact one, use a fake one <code>0x33</code> and the other things should be the same. </li>
 <li>If option = 3, do nothing and return immediately with return value -1. </li>
