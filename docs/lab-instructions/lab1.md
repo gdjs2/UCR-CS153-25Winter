@@ -1,5 +1,11 @@
 # Lab 1 - System Call
 
+## Accept Your Assignment
+
+[https://classroom.github.com/a/c8VO7Hjn](https://classroom.github.com/a/c8VO7Hjn)
+
+**Due: Sunday, Feb 2nd, 2025, 23:59, PST**
+
 ## Background
 
 ### What is system call?
