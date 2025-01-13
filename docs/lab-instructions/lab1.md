@@ -276,7 +276,9 @@ Here, we need to explain why we cannot directly pass our parameters using our no
 
 In the first line of the function, it prepare a value `n` for the argument passed for `exit()` syscall. `argint(0, &n)` fetches the first value in the calling argument and stores it into variable `n`. Then it execute `exit(n)`. (Can it be the last function containing `exit`????)
 
-OK, now let's see the very LAST `exit()` function. It's in the file `/kernel/proc.c`. 
+OK, now let's see the very LAST `exit()` function. It's in the file `/kernel/proc.c`. However, before we step into the actual function implementation, we need know how `sys_exit()` finds `exit()` first. These two functions are defined in two differen  files, in order for one to find another, there should be a "bridge" for them. As we mentioned before, the most common bridge is a header file. Here, the same, there is a header file storing all definition of kernel functions (just like `/user/user.h`), which is `/kernel/defs.h`. You can also find it by doing a small search about the function definitions. 
+
+> Searching, finding where the definition and implementation is a very important skill in C/C++ programming. The documentation is sometimes (tbh, always) unreliable. Therefore, most of time you need to learn from the code by yourself. Currently, the C/C++ extension in VSCode is very powerful and you can tack the function call flow by simply using `ctrl + left click` (or `command + left click` on macOS). However, sometimes it may skip some definition. Therefore, search and filter by yourself is most reliable way. 
 
 ```c
 // Exit the current process.  Does not return.
@@ -410,6 +412,8 @@ Then, just finish this part by yourself.
 -----------------
 
 Now, we come to the most challenge part in the Lab and you need to implement the most of your code here, by yourself. We can follow the `sys_exit()` and it will call `exit(int)` in `/kernel/proc.c`. Similarly, you can define your `waitpid()` function here. 
+
+But stop for a minute. Do you still remember, in order to let `sys_exit()` find `exit()`, there is a definition for `exit()` in `/kernel/defs.h` and it is included in `/kernel/sysproc.c`. Therefore, make a definition for our `waitpid()` in `/kernel/defs.h` so that our `sys_waitpid()` could find the definition for this function. 
 
 Then, what to do? The most intuitive thing is that you can copy the code from `wait(int*)` function as they perform two similar things. Now, it's time to take a look at [your tasks](#your-task) and implement it according to the requirements. 
 
