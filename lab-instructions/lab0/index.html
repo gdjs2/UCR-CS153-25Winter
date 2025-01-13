@@ -1,147 +1,740 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Lab Session for CS153 Design of Operating System">
+      
+      
         <meta name="author" content="Zhaoqi Xiao">
+      
+      
         <link rel="canonical" href="http://gdjs2.cn/UCR-CS153-25Winter/lab-instructions/lab0/">
-        <link rel="shortcut icon" href="../../img/favicon.ico">
+      
+      
+        <link rel="prev" href="../c-pointers/">
+      
+      
+        <link rel="next" href="../lab1/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.44">
+    
+    
+      
         <title>Lab 0 Instructions - CS153 Design of Operating System - Lab Session</title>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../../css/brands.min.css" rel="stylesheet">
-        <link href="../../css/solid.min.css" rel="stylesheet">
-        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../../css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
 
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="../..">CS153 Design of Operating System - Lab Session</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="../.." class="nav-link">CS153 - Design of Operating System - Lab Session - 25 Winter</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Lab instructions</a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../c-pointers/" class="dropdown-item">Introduction to C language and Pointers</a>
-</li>
-                                    
-<li>
-    <a href="./" class="dropdown-item active" aria-current="page">Lab 0 Instructions</a>
-</li>
-                                    
-<li>
-    <a href="../lab1/" class="dropdown-item">Lab 1 - System Call</a>
-</li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ms-md-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../c-pointers/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../lab1/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-bs-level="1"><a href="#lab-0-instructions" class="nav-link">Lab 0 Instructions</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#before-you-start" class="nav-link">Before you start</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#accept-lab-0" class="nav-link">Accept Lab 0</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#required-system" class="nav-link">Required System</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#required-tools" class="nav-link">Required Tools</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#clone-your-repository" class="nav-link">Clone your repository</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#compile" class="nav-link">Compile</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#add-the-first-user-program" class="nav-link">Add the First User Program!</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#push-your-work" class="nav-link">Push Your Work</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#basic-linux-commands" class="nav-link">Basic Linux Commands</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#basic-git-commands" class="nav-link">Basic Git Commands</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#git-related-questions" class="nav-link">Git related Questions</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab-0-instructions" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
-</div></div>
-                    <div class="col-md-9" role="main">
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="CS153 Design of Operating System - Lab Session" class="md-header__button md-logo" aria-label="CS153 Design of Operating System - Lab Session" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CS153 Design of Operating System - Lab Session
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 0 Instructions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="CS153 Design of Operating System - Lab Session" class="md-nav__button md-logo" aria-label="CS153 Design of Operating System - Lab Session" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CS153 Design of Operating System - Lab Session
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CS153 - Design of Operating System - Lab Session - 25 Winter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab instructions
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Lab instructions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-pointers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to C language and Pointers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Lab 0 Instructions
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Lab 0 Instructions
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Before you start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accept-lab-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accept Lab 0
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#required-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required System
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#required-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Required Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debian-or-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debian or Ubuntu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arch-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arch Linux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos" class="md-nav__link">
+    <span class="md-ellipsis">
+      macOS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-your-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test your tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clone-your-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clone your repository
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-the-first-user-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add the First User Program!
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#push-your-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      Push Your Work
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-linux-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Linux Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-git-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Git Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-related-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Git related Questions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Git related Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-can-i-clone-a-private-repository-to-my-local-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      How can I clone a private repository to my local machine?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-if-there-is-a-permission-error-when-i-try-cloning-a-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      What if there is a permission error when I try cloning a repository?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 1 - System Call
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Before you start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accept-lab-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accept Lab 0
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#required-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required System
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#required-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Required Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debian-or-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debian or Ubuntu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arch-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arch Linux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos" class="md-nav__link">
+    <span class="md-ellipsis">
+      macOS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-your-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test your tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clone-your-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clone your repository
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-the-first-user-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add the First User Program!
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#push-your-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      Push Your Work
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-linux-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Linux Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-git-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Git Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-related-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Git related Questions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Git related Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-can-i-clone-a-private-repository-to-my-local-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      How can I clone a private repository to my local machine?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-if-there-is-a-permission-error-when-i-try-cloning-a-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      What if there is a permission error when I try cloning a repository?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
 
 <h1 id="lab-0-instructions">Lab 0 Instructions</h1>
 <h2 id="before-you-start">Before you start</h2>
@@ -165,113 +758,163 @@ It can be:</p>
 <p>After you get your system set up, you should install some necessary tools for developing xv6. Run the following command in your command line (copy &amp; paste the command just following the $ sign).</p>
 <p>If you meet errors when downloading the requirements, check whether you update your package manager's index first. For example, if you are using Ubuntu, you need use <code>$ sudo apt update</code> to update your index.</p>
 <h3 id="debian-or-ubuntu">Debian or Ubuntu</h3>
-<pre><code class="language-bash">$ sudo apt-get install git build-essential gdb-multiarch qemu-system-misc gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu 
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>build-essential<span class="w"> </span>gdb-multiarch<span class="w"> </span>qemu-system-misc<span class="w"> </span>gcc-riscv64-linux-gnu<span class="w"> </span>binutils-riscv64-linux-gnu<span class="w"> </span>
+</code></pre></div></td></tr></table></div>
 <h3 id="arch-linux">Arch Linux</h3>
-<pre><code class="language-bash">$ sudo pacman -S riscv64-linux-gnu-binutils riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb qemu-emulators-full
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>riscv64-linux-gnu-binutils<span class="w"> </span>riscv64-linux-gnu-gcc<span class="w"> </span>riscv64-linux-gnu-gdb<span class="w"> </span>qemu-emulators-full
+</code></pre></div></td></tr></table></div>
 <h3 id="macos">macOS</h3>
-<p>Install developer tools if you haven't:</p>
-<pre><code class="language-bash">$ xcode-select --install
-</code></pre>
-<p>Next, install <a href="https://brew.sh">Homebrew</a>, a package manager for macOS if you haven't:</p>
-<pre><code class="language-bash">$ /bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;
-</code></pre>
-<p>Next, install the RISC-V compiler <a href="https://github.com/riscv-software-src/homebrew-riscv">toolchain</a>:</p>
-<pre><code class="language-bash">$ brew tap riscv-software-src/riscv
-$ brew install riscv-tools
-</code></pre>
+<p>Install developer tools if you haven't:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>xcode-select<span class="w"> </span>--install
+</code></pre></div></td></tr></table></div></p>
+<p>Next, install <a href="https://brew.sh">Homebrew</a>, a package manager for macOS if you haven't:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div></td></tr></table></div></p>
+<p>Next, install the RISC-V compiler <a href="https://github.com/riscv-software-src/homebrew-riscv">toolchain</a>:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>brew<span class="w"> </span>tap<span class="w"> </span>riscv-software-src/riscv
+$<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>riscv-tools
+</code></pre></div></td></tr></table></div></p>
 <p>The brew formula may not link into /usr/local. You will need to update your shell's rc file (e.g. <a href="https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html">~/.bashrc</a>) to add the appropriate directory to <a href="https://www.linfo.org/path_env_var.html">$PATH</a>.</p>
-<p>Finally install QEMU:</p>
-<pre><code class="language-bash">$ brew install qemu
-</code></pre>
+<p>Finally install QEMU:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>qemu
+</code></pre></div></td></tr></table></div></p>
 <h3 id="test-your-tools">Test your tools</h3>
-<p>Run the following command to see whether it can give you the version number for the programs:</p>
-<pre><code class="language-bash">$ qemu-system-riscv64 --version
-QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.2)
+<p>Run the following command to see whether it can give you the version number for the programs:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>qemu-system-riscv64<span class="w"> </span>--version
+QEMU<span class="w"> </span>emulator<span class="w"> </span>version<span class="w"> </span><span class="m">8</span>.2.2<span class="w"> </span><span class="o">(</span>Debian<span class="w"> </span><span class="m">1</span>:8.2.2+ds-0ubuntu1.2<span class="o">)</span>
 ...
-</code></pre>
-<p>And at least one RISC-V version of GCC:</p>
-<pre><code class="language-bash">$ riscv64-linux-gnu-gcc --version
-riscv64-linux-gnu-gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0
+</code></pre></div></td></tr></table></div></p>
+<p>And at least one RISC-V version of GCC:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>riscv64-linux-gnu-gcc<span class="w"> </span>--version
+riscv64-linux-gnu-gcc<span class="w"> </span><span class="o">(</span>Ubuntu<span class="w"> </span><span class="m">13</span>.2.0-23ubuntu4<span class="o">)</span><span class="w"> </span><span class="m">13</span>.2.0
 ...
-</code></pre>
-<pre><code class="language-bash">$ riscv64-unknown-elf-gcc --version
-</code></pre>
-<pre><code class="language-bash">$ riscv64-unknown-linux-gnu-gcc --version
-</code></pre>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>riscv64-unknown-elf-gcc<span class="w"> </span>--version
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>riscv64-unknown-linux-gnu-gcc<span class="w"> </span>--version
+</code></pre></div></td></tr></table></div></p>
 <h2 id="clone-your-repository">Clone your repository</h2>
 <p>After you accept the lab, you will get a repository for our lab 0, which has a name <code>lab0-***</code>. Clone this repo to your local machine. If you never used Github before (never set a SSH key for your account), please refer to <a href="#git-related-questions">here</a>. </p>
 <h2 id="compile">Compile</h2>
 <p>Get into the directory with your lab0 code.</p>
-<pre><code class="language-bash">$ cd /some/path/to/xv6-riscv-lab0
-</code></pre>
-<p>Build and run xv6</p>
-<pre><code class="language-bash">$ make qemu
-riscv64-linux-gnu-gcc    -c -o kernel/entry.o kernel/entry.S
-riscv64-linux-gnu-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/some/path/to/xv6-riscv-lab0
+</code></pre></div></td></tr></table></div>
+<p>Build and run xv6
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>make<span class="w"> </span>qemu
+riscv64-linux-gnu-gcc<span class="w">    </span>-c<span class="w"> </span>-o<span class="w"> </span>kernel/entry.o<span class="w"> </span>kernel/entry.S
+riscv64-linux-gnu-gcc<span class="w"> </span>-Wall<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb
 ...
-riscv64-linux-gnu-objdump -S user/_zombie &gt; user/zombie.asm
-riscv64-linux-gnu-objdump -t user/_zombie | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' &gt; user/zombie.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie 
-nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 1954 total 2000
-balloc: first 767 blocks have been allocated
-balloc: write bitmap block at sector 45
-qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 3 -nographic -global virtio-mmio.force-legacy=false -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+riscv64-linux-gnu-objdump<span class="w"> </span>-S<span class="w"> </span>user/_zombie<span class="w"> </span>&gt;<span class="w"> </span>user/zombie.asm
+riscv64-linux-gnu-objdump<span class="w"> </span>-t<span class="w"> </span>user/_zombie<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;1,/SYMBOL TABLE/d; s/ .* / /; /^$/d&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>user/zombie.sym
+mkfs/mkfs<span class="w"> </span>fs.img<span class="w"> </span>README<span class="w"> </span>user/_cat<span class="w"> </span>user/_echo<span class="w"> </span>user/_forktest<span class="w"> </span>user/_grep<span class="w"> </span>user/_init<span class="w"> </span>user/_kill<span class="w"> </span>user/_ln<span class="w"> </span>user/_ls<span class="w"> </span>user/_mkdir<span class="w"> </span>user/_rm<span class="w"> </span>user/_sh<span class="w"> </span>user/_stressfs<span class="w"> </span>user/_usertests<span class="w"> </span>user/_grind<span class="w"> </span>user/_wc<span class="w"> </span>user/_zombie<span class="w"> </span>
+nmeta<span class="w"> </span><span class="m">46</span><span class="w"> </span><span class="o">(</span>boot,<span class="w"> </span>super,<span class="w"> </span>log<span class="w"> </span>blocks<span class="w"> </span><span class="m">30</span><span class="w"> </span>inode<span class="w"> </span>blocks<span class="w"> </span><span class="m">13</span>,<span class="w"> </span>bitmap<span class="w"> </span>blocks<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span>blocks<span class="w"> </span><span class="m">1954</span><span class="w"> </span>total<span class="w"> </span><span class="m">2000</span>
+balloc:<span class="w"> </span>first<span class="w"> </span><span class="m">767</span><span class="w"> </span>blocks<span class="w"> </span>have<span class="w"> </span>been<span class="w"> </span>allocated
+balloc:<span class="w"> </span>write<span class="w"> </span>bitmap<span class="w"> </span>block<span class="w"> </span>at<span class="w"> </span>sector<span class="w"> </span><span class="m">45</span>
+qemu-system-riscv64<span class="w"> </span>-machine<span class="w"> </span>virt<span class="w"> </span>-bios<span class="w"> </span>none<span class="w"> </span>-kernel<span class="w"> </span>kernel/kernel<span class="w"> </span>-m<span class="w"> </span>128M<span class="w"> </span>-smp<span class="w"> </span><span class="m">3</span><span class="w"> </span>-nographic<span class="w"> </span>-global<span class="w"> </span>virtio-mmio.force-legacy<span class="o">=</span><span class="nb">false</span><span class="w"> </span>-drive<span class="w"> </span><span class="nv">file</span><span class="o">=</span>fs.img,if<span class="o">=</span>none,format<span class="o">=</span>raw,id<span class="o">=</span>x0<span class="w"> </span>-device<span class="w"> </span>virtio-blk-device,drive<span class="o">=</span>x0,bus<span class="o">=</span>virtio-mmio-bus.0
 
-xv6 kernel is booting
+xv6<span class="w"> </span>kernel<span class="w"> </span>is<span class="w"> </span>booting
 
-hart 2 starting
-hart 1 starting
-init: starting sh
-</code></pre>
-<p>Now, xv6-riscv has been compiled and a bash is running. If you type <code>ls</code> at the prompt, you should see output similar to the following:</p>
-<pre><code class="language-bash">$ ls
-.              1 1 1024
-..             1 1 1024
-README         2 2 2292
-cat            2 3 34264
-echo           2 4 33184
-forktest       2 5 16184
-grep           2 6 37520
-init           2 7 33648
-kill           2 8 33104
-ln             2 9 32920
-ls             2 10 36288
-mkdir          2 11 33160
-rm             2 12 33152
-sh             2 13 54728
-stressfs       2 14 34048
-usertests      2 15 179352
-grind          2 16 49400
-wc             2 17 35216
-zombie         2 18 32528
-console        3 19 0
-
-</code></pre>
+hart<span class="w"> </span><span class="m">2</span><span class="w"> </span>starting
+hart<span class="w"> </span><span class="m">1</span><span class="w"> </span>starting
+init:<span class="w"> </span>starting<span class="w"> </span>sh
+</code></pre></div></td></tr></table></div></p>
+<p>Now, xv6-riscv has been compiled and a bash is running. If you type <code>ls</code> at the prompt, you should see output similar to the following:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>ls
+.<span class="w">              </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1024</span>
+..<span class="w">             </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1024</span>
+README<span class="w">         </span><span class="m">2</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">2292</span>
+cat<span class="w">            </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">34264</span>
+<span class="nb">echo</span><span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">33184</span>
+forktest<span class="w">       </span><span class="m">2</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">16184</span>
+grep<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">37520</span>
+init<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="m">33648</span>
+<span class="nb">kill</span><span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="m">33104</span>
+ln<span class="w">             </span><span class="m">2</span><span class="w"> </span><span class="m">9</span><span class="w"> </span><span class="m">32920</span>
+ls<span class="w">             </span><span class="m">2</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">36288</span>
+mkdir<span class="w">          </span><span class="m">2</span><span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="m">33160</span>
+rm<span class="w">             </span><span class="m">2</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">33152</span>
+sh<span class="w">             </span><span class="m">2</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">54728</span>
+stressfs<span class="w">       </span><span class="m">2</span><span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">34048</span>
+usertests<span class="w">      </span><span class="m">2</span><span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">179352</span>
+grind<span class="w">          </span><span class="m">2</span><span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="m">49400</span>
+wc<span class="w">             </span><span class="m">2</span><span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="m">35216</span>
+zombie<span class="w">         </span><span class="m">2</span><span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">32528</span>
+console<span class="w">        </span><span class="m">3</span><span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">0</span>
+</code></pre></div></td></tr></table></div></p>
 <p>There are the files that mkfs includes in the initial file system; most are programs you can run. </p>
 <p>To quit qemu type <code>Ctrl-a x</code> (press <code>Ctrl</code> and <code>a</code> at the same time, followed by <code>x</code>)</p>
 <h2 id="add-the-first-user-program">Add the First User Program!</h2>
 <p>Open this directory using any code editor (e.g., vscode). In the directory <code>/user</code>, add a file named by <code>hello-world.c</code>. </p>
 <p>Copy and paste the following code to the file. Remember to save it.</p>
-<pre><code class="language-c">#include &quot;kernel/types.h&quot;
-#include &quot;user/user.h&quot;
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;kernel/types.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;user/user.h&quot;</span>
 
-int main() {
-    printf(&quot;hello, world\n&quot;);
-}
-</code></pre>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;hello, world</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
 <p>Add one line in the file <code>/Makefile</code>, just after line 141 and save. </p>
-<pre><code class="language-makefile">...
-    $U/_grind\
-    $U/_wc\
-    $U/_zombie\
-    $U/_hello-world\
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="err">...</span>
+<span class="w">    </span><span class="err">$U/_grind\</span>
+<span class="w">    </span><span class="err">$U/_wc\</span>
+<span class="w">    </span><span class="err">$U/_zombie\</span>
+<span class="w">    </span><span class="err">$U/_hello-world\</span>
+</code></pre></div></td></tr></table></div>
 <p>Now recompile the code using <code>make qemu</code>. After you see <code>init: starting sh</code>. You can type <code>ls</code> to check whether there is a new program naming <code>hello-world</code>. If there is, type command <code>hello-world</code> to run this program. </p>
-<pre><code class="language-bash">$ hello-world
-hello, world
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>hello-world
+hello,<span class="w"> </span>world
+</code></pre></div></td></tr></table></div>
 <p>You are done with your work here!</p>
 <h2 id="push-your-work">Push Your Work</h2>
 <p>You now can push your work to the repository in Github Classroom. You can use the GUI of your editor (e.g., vscode) to do this, or you can use the command line. </p>
@@ -297,82 +940,58 @@ hello, world
 <h3 id="how-can-i-clone-a-private-repository-to-my-local-machine">How can I clone a private repository to my local machine?</h3>
 <p><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository">https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository</a></p>
 <h3 id="what-if-there-is-a-permission-error-when-i-try-cloning-a-repository">What if there is a permission error when I try cloning a repository?</h3>
-<p><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account</a></p></div>
-            </div>
-        </div>
+<p><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account</a></p>
 
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="../../js/bootstrap.bundle.min.js"></script>
-        <script>
-            var base_url = "../..",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="../../js/base.js"></script>
-        <script src="../../search/main.js"></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
             </div>
-            <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-    </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
 </div>
-
-    </body>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
 </html>

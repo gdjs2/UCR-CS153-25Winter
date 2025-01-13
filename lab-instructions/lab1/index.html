@@ -1,123 +1,546 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Lab Session for CS153 Design of Operating System">
+      
+      
         <meta name="author" content="Zhaoqi Xiao">
+      
+      
         <link rel="canonical" href="http://gdjs2.cn/UCR-CS153-25Winter/lab-instructions/lab1/">
-        <link rel="shortcut icon" href="../../img/favicon.ico">
+      
+      
+        <link rel="prev" href="../lab0/">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.44">
+    
+    
+      
         <title>Lab 1 - System Call - CS153 Design of Operating System - Lab Session</title>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../../css/brands.min.css" rel="stylesheet">
-        <link href="../../css/solid.min.css" rel="stylesheet">
-        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../../css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
 
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="../..">CS153 Design of Operating System - Lab Session</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="../.." class="nav-link">CS153 - Design of Operating System - Lab Session - 25 Winter</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Lab instructions</a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../c-pointers/" class="dropdown-item">Introduction to C language and Pointers</a>
-</li>
-                                    
-<li>
-    <a href="../lab0/" class="dropdown-item">Lab 0 Instructions</a>
-</li>
-                                    
-<li>
-    <a href="./" class="dropdown-item active" aria-current="page">Lab 1 - System Call</a>
-</li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ms-md-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../lab0/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-bs-level="1"><a href="#lab-1-system-call" class="nav-link">Lab 1 - System Call</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#background" class="nav-link">Background</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#your-task" class="nav-link">Your Task</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-by-step-instruction" class="nav-link">Step-by-Step Instruction</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#grading-policy" class="nav-link">Grading Policy</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#what-to-write-in-report" class="nav-link">What to write in report</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab-1-system-call" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
-</div></div>
-                    <div class="col-md-9" role="main">
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="CS153 Design of Operating System - Lab Session" class="md-header__button md-logo" aria-label="CS153 Design of Operating System - Lab Session" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CS153 Design of Operating System - Lab Session
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 1 - System Call
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="CS153 Design of Operating System - Lab Session" class="md-nav__button md-logo" aria-label="CS153 Design of Operating System - Lab Session" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CS153 Design of Operating System - Lab Session
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CS153 - Design of Operating System - Lab Session - 25 Winter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab instructions
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Lab instructions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-pointers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to C language and Pointers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 0 Instructions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Lab 1 - System Call
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Lab 1 - System Call
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      Background
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Background">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-system-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is system call?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-does-system-call-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      How does system call work?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your Task
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step-instruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-Step Instruction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grading-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grading Policy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-write-in-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      What to write in report
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      Background
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Background">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-system-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is system call?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-does-system-call-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      How does system call work?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your Task
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step-instruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-Step Instruction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grading-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grading Policy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-write-in-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      What to write in report
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
 
 <h1 id="lab-1-system-call">Lab 1 - System Call</h1>
 <h2 id="background">Background</h2>
@@ -126,188 +549,308 @@
 <p>Because it involves two parties - the user program (low privilege) and the operating system (high privilege), it is bound to have a transition of privileges. </p>
 <h3 id="how-does-system-call-work">How does system call work?</h3>
 <p>You can call a system call (e.g., exit(), which is used for terminating current program) in a user space program (like in our hello-world.c program). Let's just use our hello-world program and change it a little bit.</p>
-<pre><code class="language-c">// hello-world.c in /user/
-#include &quot;kernel/types.h&quot;
-#include &quot;user/user.h&quot;
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// hello-world.c in /user/</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;kernel/types.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;user/user.h&quot;</span>
 
-int main(int argc, char **argv) {
-    printf(&quot;Hello, world!\n&quot;);
-    exit(0);
-    printf(&quot;?.? Dead code ?.?\n&quot;);
-}
-</code></pre>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Hello, world!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;?.? Dead code ?.?</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
 <p>Also, we need to add a line in the <code>Makefile</code>. This modification adds a user space program, making program <code>make</code> know that it should compile the program <code>hello-world.c</code> under <code>/user/</code>. <code>$U</code> stands for <code>/user/</code> directory. </p>
 <blockquote>
 <p>What is user space program and what is kernel space program? If you take a look at the </p>
 </blockquote>
-<pre><code class="language-makefile">... line 138
-    $U/_grind\
-    $U/_wc\
-    $U/_zombie\
-    $U/_hello-world\
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="err">...</span><span class="w"> </span><span class="err">line</span><span class="w"> </span><span class="err">138</span>
+<span class="w">    </span><span class="err">$U/_grind\</span>
+<span class="w">    </span><span class="err">$U/_wc\</span>
+<span class="w">    </span><span class="err">$U/_zombie\</span>
+<span class="w">    </span><span class="err">$U/_hello-world\</span>
+</code></pre></div></td></tr></table></div>
 <p>Let's compile this file and see what will happen. </p>
-<pre><code class="language-bash">$ make qemu
-riscv64-linux-gnu-gcc    -c -o kernel/entry.o kernel/entry.S
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>make<span class="w"> </span>qemu
+riscv64-linux-gnu-gcc<span class="w">    </span>-c<span class="w"> </span>-o<span class="w"> </span>kernel/entry.o<span class="w"> </span>kernel/entry.S
 ...
-xv6 kernel is booting
+xv6<span class="w"> </span>kernel<span class="w"> </span>is<span class="w"> </span>booting
 
-hart 2 starting
-hart 1 starting
-init: starting sh
-$ 
-</code></pre>
+hart<span class="w"> </span><span class="m">2</span><span class="w"> </span>starting
+hart<span class="w"> </span><span class="m">1</span><span class="w"> </span>starting
+init:<span class="w"> </span>starting<span class="w"> </span>sh
+$<span class="w"> </span>
+</code></pre></div></td></tr></table></div>
 <p>Then use <code>ls</code> command listing all available programs in user space. </p>
-<pre><code class="language-bash">$ ls
-.              1 1 1024
-..             1 1 1024
-README         2 2 2292
-cat            2 3 34256
-echo           2 4 33184
-forktest       2 5 16168
-grep           2 6 37520
-init           2 7 33640
-kill           2 8 33096
-ln             2 9 32912
-ls             2 10 36280
-mkdir          2 11 33152
-rm             2 12 33144
-sh             2 13 54720
-stressfs       2 14 34040
-usertests      2 15 179344
-grind          2 16 49392
-wc             2 17 35216
-zombie         2 18 32520
-hello-world    2 19 32656
-console        3 20 0
-</code></pre>
-<p>We can check there is a hello-world program. Then we can execute it by:</p>
-<pre><code class="language-bash">$ hello-world
-Hello, world!
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>ls
+.<span class="w">              </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1024</span>
+..<span class="w">             </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1024</span>
+README<span class="w">         </span><span class="m">2</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">2292</span>
+cat<span class="w">            </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">34256</span>
+<span class="nb">echo</span><span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">33184</span>
+forktest<span class="w">       </span><span class="m">2</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">16168</span>
+grep<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">37520</span>
+init<span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="m">33640</span>
+<span class="nb">kill</span><span class="w">           </span><span class="m">2</span><span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="m">33096</span>
+ln<span class="w">             </span><span class="m">2</span><span class="w"> </span><span class="m">9</span><span class="w"> </span><span class="m">32912</span>
+ls<span class="w">             </span><span class="m">2</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">36280</span>
+mkdir<span class="w">          </span><span class="m">2</span><span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="m">33152</span>
+rm<span class="w">             </span><span class="m">2</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">33144</span>
+sh<span class="w">             </span><span class="m">2</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">54720</span>
+stressfs<span class="w">       </span><span class="m">2</span><span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">34040</span>
+usertests<span class="w">      </span><span class="m">2</span><span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">179344</span>
+grind<span class="w">          </span><span class="m">2</span><span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="m">49392</span>
+wc<span class="w">             </span><span class="m">2</span><span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="m">35216</span>
+zombie<span class="w">         </span><span class="m">2</span><span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">32520</span>
+hello-world<span class="w">    </span><span class="m">2</span><span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">32656</span>
+console<span class="w">        </span><span class="m">3</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">0</span>
+</code></pre></div></td></tr></table></div>
+<p>We can check there is a hello-world program. Then we can execute it by:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>hello-world
+Hello,<span class="w"> </span>world!
+</code></pre></div></td></tr></table></div></p>
 <p>What happened? The code after <code>exit(0)</code> is just ignored. The reason for this is the program just exits at <code>exit(0)</code> and of course the left code wouldn't be executed forever. </p>
 <p>Ok, now let's just see what will happend in the call of <code>exit(0)</code>. </p>
 <p>The definition of <code>exit()</code> function is in the file <code>/user/user.h</code>.</p>
-<pre><code class="language-c">...
-// system calls
-int fork(void);
-int exit(int) __attribute__((noreturn));
-int wait(int*);
-...
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">...</span>
+<span class="c1">// system calls</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">fork</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">exit</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="k">noreturn</span><span class="p">));</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">wait</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">);</span>
+<span class="p">...</span>
+</code></pre></div></td></tr></table></div>
 <p>We can see that its return value is an integer and it receives an inteter as its parameter. The <code>__attribute__((noreturn))</code> part is a compiler annotation telling the compilers (gcc &amp; clang both support this) this function wouldn't return. </p>
 <p>However, this is just the definition of this function. In C/C++, we know that a definition of function isn't executable. Therefore, where is the implementation of this function?</p>
 <p>The secret is in the file <code>/user/usys.pl</code>. This file is a Perl program. Perl is just like Python, which is also an interpreter-based language. </p>
 <p>This <code>usys.pl</code> would generate the 'trigger' for function calls. This Perl script might be dense, but once you compile xv6 using <code>make qemu</code>, you can find the file generated by it, which is <code>/user/usys.S</code>. </p>
-<pre><code class="language-asm"># generated by usys.pl - do not edit
-#include &quot;kernel/syscall.h&quot;
-...
-.global exit
-exit:
- li a7, SYS_exit
- ecall
- ret
-...
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># generated by usys.pl - do not edit</span>
+<span class="c1">#include &quot;kernel/syscall.h&quot;</span>
+<span class="na">...</span>
+<span class="na">.global</span><span class="w"> </span><span class="no">exit</span>
+<span class="nl">exit:</span>
+<span class="w"> </span><span class="nf">li</span><span class="w"> </span><span class="no">a7</span><span class="p">,</span><span class="w"> </span><span class="no">SYS_exit</span>
+<span class="w"> </span><span class="nf">ecall</span>
+<span class="w"> </span><span class="nf">ret</span>
+<span class="na">...</span>
+</code></pre></div></td></tr></table></div>
 <p>Generally, this <code>/user/usys.S</code>, which is an assembly code for RISC-V, has done two things-including <code>/kernel/syscall.h</code> and making many global symbols (declared by <code>.global **</code>, e.g., <code>.global exit</code> defines a symbol <code>exit</code>) with corresponding functions' assembly code.</p>
 <p>Let's just use the example of <code>exit()</code>.</p>
-<pre><code class="language-asm">.global exit        # declare a symbol, you can image it as a variable
-exit:               # this is a tag, meaning symbol exit points to here
- li a7, SYS_exit    # load immediate value, SYS_exit, into register a7
- ecall              # system call instruction in RISC-V
- ret                # return
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="na">.global</span><span class="w"> </span><span class="no">exit</span><span class="w">        </span><span class="c1"># declare a symbol, you can image it as a variable</span>
+<span class="nl">exit:</span><span class="w">               </span><span class="c1"># this is a tag, meaning symbol exit points to here</span>
+<span class="w"> </span><span class="nf">li</span><span class="w"> </span><span class="no">a7</span><span class="p">,</span><span class="w"> </span><span class="no">SYS_exit</span><span class="w">    </span><span class="c1"># load immediate value, SYS_exit, into register a7</span>
+<span class="w"> </span><span class="nf">ecall</span><span class="w">              </span><span class="c1"># system call instruction in RISC-V</span>
+<span class="w"> </span><span class="nf">ret</span><span class="w">                </span><span class="c1"># return</span>
+</code></pre></div></td></tr></table></div>
 <p>There are still several questions in this <em>small</em> piece of assembly code.</p>
 <ol>
 <li>Where is the immediate value <code>SYS_exit</code>?</li>
 <li>Where does the program go after we use <code>ecall</code> function?</li>
 </ol>
 <p>For the first question, let's get back to the first thing <code>usys.S</code> has done-the included file <code>/kernel/syscall.h</code></p>
-<pre><code class="language-c">// System call numbers
-#define SYS_fork    1
-#define SYS_exit    2
-#define SYS_wait    3
-...
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// System call numbers</span>
+<span class="cp">#define SYS_fork    1</span>
+<span class="cp">#define SYS_exit    2</span>
+<span class="cp">#define SYS_wait    3</span>
+<span class="p">...</span>
+</code></pre></div></td></tr></table></div>
 <p>See? All the immediate values are define here and included into the assembly code by <code>#include "kernel/syscall.h"</code>. </p>
 <p>For the second question, it's a little complicated. If you want to learn more, you can refer to <a href="https://pdos.csail.mit.edu/6.1810/2024/xv6/book-riscv-rev4.pdf">xv6 book</a> chapter 4.3. In short, <code>ecall</code> instruction in user mode (now we are running <code>hello-world</code>, which is a userspace program) will trap the execution into <code>uservec()</code> function in <code>trampoline.S</code> and further get into <code>usertrap()</code> function in <code>/kernel/trap.c</code>. </p>
 <p>So far, the transition between user space and kernel space has done. The CPU's privilege mode has been set to 1, which is supervisor mode (S-mode). However, the memory page table hasn't been set to kernel's (you can think about the reason after you learn more). </p>
-<pre><code class="language-c">void
-usertrap(void)
-{
-...
-    intr_on();
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">void</span>
+<span class="nf">usertrap</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">...</span>
+<span class="w">    </span><span class="n">intr_on</span><span class="p">();</span>
 
-    syscall();
-  } else if((which_dev = devintr()) != 0){
-...
-}
-</code></pre>
+<span class="w">    </span><span class="n">syscall</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">((</span><span class="n">which_dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">devintr</span><span class="p">())</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span>
+<span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
 <p>Following function <code>usertrap()</code> in <code>/kernel/trap.c</code>, it finally goes to <code>syscall(void)</code> function in <code>/kernel/syscall.c</code>. This function is easy to understand now (T.T compared to previous assembly code). </p>
-<pre><code class="language-c">void
-syscall(void)
-{
-  int num;
-  struct proc *p = myproc();
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">void</span>
+<span class="nf">syscall</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">;</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myproc</span><span class="p">();</span>
 
-  num = p-&gt;trapframe-&gt;a7;
-  if(num &gt; 0 &amp;&amp; num &lt; NELEM(syscalls) &amp;&amp; syscalls[num]) {
-    // Use num to lookup the system call function for num, call it,
-    // and store its return value in p-&gt;trapframe-&gt;a0
-    p-&gt;trapframe-&gt;a0 = syscalls[num]();
-  } else {
-    printf(&quot;%d %s: unknown sys call %d\n&quot;,
-            p-&gt;pid, p-&gt;name, num);
-    p-&gt;trapframe-&gt;a0 = -1;
-  }
-}
-</code></pre>
+<span class="w">    </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a7</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">NELEM</span><span class="p">(</span><span class="n">syscalls</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">syscalls</span><span class="p">[</span><span class="n">num</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Use num to lookup the system call function for num, call it,</span>
+<span class="w">        </span><span class="c1">// and store its return value in p-&gt;trapframe-&gt;a0</span>
+<span class="w">        </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">syscalls</span><span class="p">[</span><span class="n">num</span><span class="p">]();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d %s: unknown sys call %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
+<span class="w">        </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
 <p>At line 137, we got the number stored in user program's register <code>a7</code>. Feel familiar? Yes! It was stored a little before in the function <code>exit()</code> of <code>/user/usys.S</code>.</p>
-<pre><code class="language-asm">.global exit        # declare a symbol, you can image it as a variable
-exit:               # this is a tag, meaning symbol exit points to here
- li a7, SYS_exit    # load immediate value, SYS_exit, into register a7 HERE!!!!!!!!!
- ecall              # system call instruction in RISC-V
- ret                # return
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="na">.global</span><span class="w"> </span><span class="no">exit</span><span class="w">        </span><span class="c1"># declare a symbol, you can image it as a variable</span>
+<span class="nl">exit:</span><span class="w">               </span><span class="c1"># this is a tag, meaning symbol exit points to here</span>
+<span class="w"> </span><span class="nf">li</span><span class="w"> </span><span class="no">a7</span><span class="p">,</span><span class="w"> </span><span class="no">SYS_exit</span><span class="w">    </span><span class="c1"># load immediate value, SYS_exit, into register a7 HERE!!!!!!!!!</span>
+<span class="w"> </span><span class="nf">ecall</span><span class="w">              </span><span class="c1"># system call instruction in RISC-V</span>
+<span class="w"> </span><span class="nf">ret</span><span class="w">                </span><span class="c1"># return</span>
+</code></pre></div></td></tr></table></div>
 <p><code>SYS_exit</code>, which is just the SYSTEM CALL NUMBER, was stored in user program and then read by kernel here. Magic, right?</p>
 <p>Then there is a <code>if</code> statement judging whetehr the syscall number is greater than 0 and less than the number of elements in <code>syscalls</code> table. OK, now let's take a look at <code>syscalls</code> table. (It's from line 107 - 129)</p>
-<pre><code class="language-c">// An array mapping syscall numbers from syscall.h
-// to the function that handles the system call.
-static uint64 (*syscalls[])(void) = {
-[SYS_fork]    sys_fork,
-[SYS_exit]    sys_exit,
-...
-};
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// An array mapping syscall numbers from syscall.h</span>
+<span class="c1">// to the function that handles the system call.</span>
+<span class="k">static</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">syscalls</span><span class="p">[])(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="p">[</span><span class="n">SYS_fork</span><span class="p">]</span><span class="w">    </span><span class="n">sys_fork</span><span class="p">,</span>
+<span class="p">[</span><span class="n">SYS_exit</span><span class="p">]</span><span class="w">    </span><span class="n">sys_exit</span><span class="p">,</span>
+<span class="p">...</span>
+<span class="p">};</span>
+</code></pre></div></td></tr></table></div>
 <p>Here, this type might be hard to understand. To be simple, it's an array and each element in this array is a <a href="https://www.geeksforgeeks.org/function-pointer-in-c/"><em>function pointer</em></a>. The functions should have type of <code>uint64 function(void)</code>, which means these functions receive no arguments and return a single unsigned 64-bits integer. </p>
 <p>Then, what's the values in this array? Let's use a simple C program example.</p>
-<pre><code class="language-c">#include &lt;stdio.h&gt;
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
 
-int main() {
-    int arr[] = {
-        [0] 10,
-        [1] 100,
-        [3] 1000,
-        [5] 0xdeadbeef
-    };
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">        </span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">        </span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
+<span class="w">        </span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="mh">0xdeadbeef</span>
+<span class="w">    </span><span class="p">};</span>
 
-    int len = sizeof(arr) / sizeof(int);
-    printf(&quot;Length of arr: %d\n&quot;, len);
-    for (int i = 0; i &lt; len; ++i) {
-        printf(&quot;arr[%d] = %d\n&quot;, i, arr[i]);
-    }
-}
-</code></pre>
-<p>You can simply copy this code and run it on your computer. The result should be:</p>
-<pre><code class="language-bash">$ ./main
-Length of arr: 6
-arr[0] = 10
-arr[1] = 100
-arr[2] = 0
-arr[3] = 1000
-arr[4] = 0
-arr[5] = -559038737
-</code></pre>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Length of arr: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;arr[%d] = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>You can simply copy this code and run it on your computer. The result should be:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>./main
+Length<span class="w"> </span>of<span class="w"> </span>arr:<span class="w"> </span><span class="m">6</span>
+arr<span class="o">[</span><span class="m">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>
+arr<span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>
+arr<span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+arr<span class="o">[</span><span class="m">3</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span>
+arr<span class="o">[</span><span class="m">4</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+arr<span class="o">[</span><span class="m">5</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>-559038737
+</code></pre></div></td></tr></table></div></p>
 <p>Now, it's pretty obvious! The numbers in <code>[]</code> is the index and the number after each index is it's corresponding value. For example, we stored 10 to position 0 and 1000 to position 3. </p>
 <blockquote>
 <p>Note: this semantic isn't officially supported by C++, which means even it's a valid grammer in C, it might be failed in compilation for some C++ compilers. </p>
@@ -317,64 +860,114 @@ arr[5] = -559038737
 <p>Then, what is <code>sys_exit()</code>? It's in file <code>/kernel/sysproc.c</code> and you can find it's pretty short. But before we get into the implementation of the function, we should know how can an array in <code>/kernel/syscall.c</code> use a function defined in <code>/kernel/sysproc.c</code>. If we want to use functions from another file, we typically define it in a header file and implement it in a source file. Whenever we want to use it, include the header file and call it. During the compilcation, we just need to pass these two source files to the compiler, it will find the function and link them. But... the situation here is a little different. As there is no header file defining the <code>sys_**</code> functions, functions in <code>/kernel/syscall.c</code> cannot find them. So, if you pay attention to the code just before the <code>syscalls[]</code> table, you will see there are a lot of <code>sys_**</code> functions defined as extern function. The key word <code>extern</code> tells the compiler, "this function's implementation is not here, but it will be somewhere else. I will give the source file including this function to you later. Now, you just assume you have already had the implemetation of this function. " </p>
 <p>Good? To learn more about <code>extern</code> key word, you can refer this <a href="https://stackoverflow.com/questions/856636/effects-of-the-extern-keyword-on-c-functions">stack overflow thread</a>. </p>
 <p>Now let's get into the implementation of <code>sys_exit()</code>.</p>
-<pre><code class="language-c">uint64
-sys_exit(void)
-{
-  int n;
-  argint(0, &amp;n);
-  exit(n);
-  return 0;  // not reached
-}
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">uint64</span>
+<span class="nf">sys_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="w">    </span><span class="n">argint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// not reached</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
 <p>Do you still remember what the definition of <code>exit()</code> syscall is in the user space? It's <code>int exit(int) __attribute__((noreturn))</code>. It has one argument and one return value, both are of integer type. But now, when coming to <code>sys_exit()</code>, the return value is still there, but where is our argument?</p>
 <p>Here, we need to explain why we cannot directly pass our parameters using our normal way (i.e., <code>sys_exit(int)</code>). It is because when we stores the function pointers to <code>syscalls[]</code>, all functions should have the same type. However, different system call has their own type of parameters. Hence, for a more convenient call of system calls of different arguments type, we make all of them with non-argument and let them parse their own arguments in <code>sys_**()</code>. (No matter you understand or not, I'm confused now :( )</p>
 <p>In the first line of the function, it prepare a value <code>n</code> for the argument passed for <code>exit()</code> syscall. <code>argint(0, &amp;n)</code> fetches the first value in the calling argument and stores it into variable <code>n</code>. Then it execute <code>exit(n)</code>. (Can it be the last function containing <code>exit</code>????)</p>
 <p>OK, now let's see the very LAST <code>exit()</code> function. It's in the file <code>/kernel/proc.c</code>. </p>
-<pre><code class="language-c">// Exit the current process.  Does not return.
-// An exited process remains in the zombie state
-// until its parent calls wait().
-void
-exit(int status)
-{
-  struct proc *p = myproc();
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Exit the current process.  Does not return.</span>
+<span class="c1">// An exited process remains in the zombie state</span>
+<span class="c1">// until its parent calls wait().</span>
+<span class="kt">void</span>
+<span class="nf">exit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myproc</span><span class="p">();</span>
 
-  if(p == initproc)
-    panic(&quot;init exiting&quot;);
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">initproc</span><span class="p">)</span>
+<span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;init exiting&quot;</span><span class="p">);</span>
 
-  // Close all open files.
-  for(int fd = 0; fd &lt; NOFILE; fd++){
-    if(p-&gt;ofile[fd]){
-      struct file *f = p-&gt;ofile[fd];
-      fileclose(f);
-      p-&gt;ofile[fd] = 0;
-    }
-  }
+<span class="w">    </span><span class="c1">// Close all open files.</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">NOFILE</span><span class="p">;</span><span class="w"> </span><span class="n">fd</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">ofile</span><span class="p">[</span><span class="n">fd</span><span class="p">]){</span>
+<span class="w">            </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">ofile</span><span class="p">[</span><span class="n">fd</span><span class="p">];</span>
+<span class="w">            </span><span class="n">fileclose</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="w">            </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">ofile</span><span class="p">[</span><span class="n">fd</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
 
-  begin_op();
-  iput(p-&gt;cwd);
-  end_op();
-  p-&gt;cwd = 0;
+<span class="w">    </span><span class="n">begin_op</span><span class="p">();</span>
+<span class="w">    </span><span class="n">iput</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">cwd</span><span class="p">);</span>
+<span class="w">    </span><span class="n">end_op</span><span class="p">();</span>
+<span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">cwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 
-  acquire(&amp;wait_lock);
+<span class="w">    </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_lock</span><span class="p">);</span>
 
-  // Give any children to init.
-  reparent(p);
+<span class="w">    </span><span class="c1">// Give any children to init.</span>
+<span class="w">    </span><span class="n">reparent</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
 
-  // Parent might be sleeping in wait().
-  wakeup(p-&gt;parent);
+<span class="w">    </span><span class="c1">// Parent might be sleeping in wait().</span>
+<span class="w">    </span><span class="n">wakeup</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">);</span>
 
-  acquire(&amp;p-&gt;lock);
+<span class="w">    </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
 
-  p-&gt;xstate = status;
-  p-&gt;state = ZOMBIE;
+<span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">xstate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">status</span><span class="p">;</span>
+<span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ZOMBIE</span><span class="p">;</span>
 
-  release(&amp;wait_lock);
+<span class="w">    </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_lock</span><span class="p">);</span>
 
-  // Jump into the scheduler, never to return.
-  sched();
-  panic(&quot;zombie exit&quot;);
-}
-</code></pre>
+<span class="w">    </span><span class="c1">// Jump into the scheduler, never to return.</span>
+<span class="w">    </span><span class="n">sched</span><span class="p">();</span>
+<span class="w">    </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;zombie exit&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
 <p>This function is well documented so I wouldn't write a lot to explain it. But we can see, in the end, it calls <code>sched()</code> which is the process scheduler. When it gets into the scheduler, the other ready processes will be run by the scheduler. </p>
 <p>So, question is, where is our argument, the status for exit? It is stored in <code>p-&gt;xstate</code>, which is used for storing the exit status specially. </p>
 <blockquote>
@@ -386,21 +979,25 @@ exit(int status)
 <p>You can use <code>wait()</code> syscall. <code>wait()</code> will return once there is one child process exits (in another word, becomes <em>zombie</em> as we saw in <code>exit()</code>) after cleaning up all the memory for the child process. </p>
 <p>Easy to understand, right?</p>
 <p>Your task, is adding another system call with user space definition</p>
-<pre><code class="language-c">int waitpid(int *status, int pid, int option);
-</code></pre>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">waitpid</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">option</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
 <p>Explanation for parameters:</p>
 <ol>
 <li><code>int *status</code>, this is a pointer, the status of exited program should be stored into this location, just like <code>wait(int*)</code>. </li>
-<li><code>int pid</code>, instead of waiting for arbitrary child process terminating, <code>waitpid()</code> should only wait for specific child with <code>pid</code>. To be more specific:</li>
+<li><code>int pid</code>, instead of waiting for arbitrary child process terminating, <code>waitpid()</code> should only wait for specific child with <code>pid</code>. To be more specific:<ol>
 <li>If pid &lt;= 0, which means it's an invalid pid in xv6 (xv6 has a pid &gt; 0), your function should work as <code>wait(int*)</code>, which means it will return whenever a child process exits. </li>
 <li>If pid &gt; 0, but the process with <code>pid</code> isn't the child of current process, your function should return -1. </li>
 <li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, but the child process with <code>pid</code> isn't running, your funcion should return -1.</li>
 <li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, the child process is running at the same time, your function should wait until its status becomes <code>zombie</code>. Then, clean up the memory the child process is using (just like in <code>wait()</code>) and return the status of the child process. </li>
-<li><code>option</code>, we'd play something function for this option. The option in Linux kernel is complex and it defines many macro for different function (you can take a look from <a href="https://linux.die.net/man/2/waitpid">here</a>). We don't need that complex option. Instead, we'd just use several values to change the operation of the function.</li>
+</ol>
+</li>
+<li><code>option</code>, we'd play something function for this option. The option in Linux kernel is complex and it defines many macro for different function (you can take a look from <a href="https://linux.die.net/man/2/waitpid">here</a>). We don't need that complex option. Instead, we'd just use several values to change the operation of the function.<ol>
 <li>If option = 0, or there is no option argument passing in, just run as normal (do nothing extra).</li>
 <li>If option = 1, use <code>printf()</code> (you may be curious about this <code>printf()</code>, this <code>printf()</code> is different from the one we used in normal program, this one is defined under the kernel space of xv6, even though they have the same function.) to output a line of <code>OPTION=1</code> and a new line character <code>\n</code>. Then your function should do nothing and return 0.</li>
 <li>If option = 2, do as normal, but when you store the status code of the child process, don't use the exact one, use a fake one <code>0x33</code> and the other things should be the same. </li>
 <li>If option = 3, do nothing and return immediately with return value -1. </li>
+</ol>
+</li>
 </ol>
 <h2 id="step-by-step-instruction">Step-by-Step Instruction</h2>
 <blockquote>
@@ -438,11 +1035,13 @@ exit(int status)
 <p>If you meet any confusion during finishing the Lab, don't hesitate to ask! It might be my bad. Maybe I made an unreasonable requirement or I miss something in the code. </p>
 </blockquote>
 <h2 id="grading-policy">Grading Policy</h2>
-<p>10 pts in total.</p>
-<p>2 pts for the attendance. </p>
-<p>8 pts for the Lab code (as shown in autograder if you submit your report). If you don't have a report submitted, your grade for the code will receive a 50% penalty. </p>
+<p>10 pts in total:</p>
+<ol>
+<li>2 pts for the attendance. </li>
+<li>8 pts for the Lab code (as shown in autograder if you submit your report). If you don't have a report submitted, your grade for the code will receive a 50% penalty. </li>
+</ol>
 <p>We reserve the rights to grade your Lab according to your report in any situation. You can make a request for grading your Lab just according to your report if you cannot submit a runnable code. But we can't ensure we will give you any grade. </p>
-<p>We may also grade your assignment just according to your report (which means we will give up your grade in autograder) if we found any <strong>SENSITIVE</strong> code in your work or we find some unmatch performance for you between the labs and lectures. To avoid this case, understand and following the instruction well, write the code by yourself and never share your code with others. </p>
+<p>We may also grade your assignment just according to your report (which means we will give up your grade in autograder) if we find any <strong>SENSITIVE</strong> code in your work or we find some unmatch performance for you between the labs and lectures. To avoid this case, understand and following the instruction well, write the code by yourself and never share your code with others. </p>
 <h2 id="what-to-write-in-report">What to write in report</h2>
 <p>We don't expect a very detailed report. Keep it in 2-3 pages. You don't need to copy, paste and explain your code in the report, as we can find them in your repo. </p>
 <p>Instead, you need to explain</p>
@@ -451,82 +1050,58 @@ exit(int status)
 <li>Is there any difficulty you met and how do you solve them. </li>
 <li>If let you pick some special functions for more options, what will you choose and do you have some reality reason for this choice. (e.g., there are many options for <code>waitpid()</code> in the real world Linux and they all have their corresponding existing reasons). </li>
 </ol>
-<p>You can add other things in the report as well if you like. </p></div>
-            </div>
-        </div>
+<p>You can add other things in the report as well if you like. </p>
 
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="../../js/bootstrap.bundle.min.js"></script>
-        <script>
-            var base_url = "../..",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="../../js/base.js"></script>
-        <script src="../../search/main.js"></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
             </div>
-            <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-    </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
 </div>
-
-    </body>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
 </html>
