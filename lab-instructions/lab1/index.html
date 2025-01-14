@@ -590,7 +590,7 @@
 </code></pre></div></td></tr></table></div>
 <p>Also, we need to add a line in the <code>Makefile</code>. This modification adds a user space program, making program <code>make</code> know that it should compile the program <code>hello-world.c</code> under <code>/user/</code>. <code>$U</code> stands for <code>/user/</code> directory. </p>
 <blockquote>
-<p>What is user space program and what is kernel space program? If you take a look at the </p>
+<p>What is user space program and what is kernel space program? If you take a look at the codebase of xv6, you may find there are two major directories, <code>/user/</code> and <code>/kernel/</code>. All the things in <code>/kernel</code> directory is kernel space program/code and the so for <code>/user</code>. However, there are much more different things between them. You can learn more from <a href="https://en.wikipedia.org/wiki/User_space_and_kernel_space#:~:text=Kernel%20space%20is%20strictly%20reserved,one%20address%20space%20per%20process.">wiki</a></p>
 </blockquote>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
