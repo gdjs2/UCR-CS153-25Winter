@@ -11,9 +11,16 @@ theme:
   font:
     text: 'Roboto'
     code: 'Roboto Mono'
+  features:
+    - content.code.annotate
 
 markdown_extensions:
   - pymdownx.superfences
   - pymdownx.highlight:
       linenums: true
   - pymdownx.arithmatex
+
+copyright: Copyright &copy; 2025 Zhaoqi Xiao. All rights reserved.
+
+# extra:
+  
