@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 
 Also, we need to add a line in the `Makefile`. This modification adds a user space program, making program `make` know that it should compile the program `hello-world.c` under `/user/`. `$U` stands for `/user/` directory. 
 
-> What is user space program and what is kernel space program? If you take a look at the 
+> What is user space program and what is kernel space program? If you take a look at the codebase of xv6, you may find there are two major directories, `/user/` and `/kernel/`. All the things in `/kernel` directory is kernel space program/code and the so for `/user`. However, there are much more different things between them. You can learn more from [wiki](https://en.wikipedia.org/wiki/User_space_and_kernel_space#:~:text=Kernel%20space%20is%20strictly%20reserved,one%20address%20space%20per%20process.)
 
 ```makefile
 ... line 138
