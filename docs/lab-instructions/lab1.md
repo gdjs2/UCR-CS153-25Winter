@@ -1,5 +1,8 @@
 # Lab 1 - System Call
 
+!!! warning
+    I opened a new pull request on some of your repos. If you accept the assignment before **Jan 15th, 9:30am**, please kindly refer to [here](./pull-request.md) about how to merge it. 
+
 ## Accept Your Assignment
 
 [https://classroom.github.com/a/c8VO7Hjn](https://classroom.github.com/a/c8VO7Hjn)
@@ -435,6 +438,9 @@ Then, what to do? The most intuitive thing is that you can copy the code from `w
 We reserve the rights to grade your Lab according to your report in any situation. You can make a request for grading your Lab just according to your report if you cannot submit a runnable code. But we can't ensure we will give you any grade. 
 
 We may also grade your assignment just according to your report (which means we will give up your grade in autograder) if we find any **SENSITIVE** code in your work or we find some unmatch performance for you between the labs and lectures. To avoid this case, understand and following the instruction well, write the code by yourself and never share your code with others. 
+
+> The grades on Github Actions might not be correct if you partially passed test cases. The grades on the table is always calculated by $\frac{8.0}{5} \times \text{PASSED CASES}$. But the final grades below is always correct. Please refer to `Test` section above `autograding reporter` for the actual grades distribution.
+
 
 ## What to write in report
 
