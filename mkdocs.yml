@@ -26,6 +26,6 @@ markdown_extensions:
 copyright: Copyright &copy; 2025 Zhaoqi Xiao. All rights reserved.
 
 extra_javascript:
-  - javascripts/mathjax.js
+  # - javascripts/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
   
