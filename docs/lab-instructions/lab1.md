@@ -1,7 +1,10 @@
 # Lab 1 - System Call
 
 !!! warning
-    I opened a new pull request on some of your repos. If you accept the assignment before **Jan 15th, 9:30am**, please kindly refer to [here](./pull-request.md) about how to merge it. 
+    **Jan 15th, 9:30am**: I opened a new pull request on some of your repos. If you accept the assignment before **Jan 15th, 9:30am**, please kindly refer to [here](./pull-request.md) about how to merge it. 
+
+!!! bug
+    **Jan 17th, 9:50am:** I updated the test code to fix a bug. This bug didn't affect the result on GitHub Classroom. It only affected the result when you test it on your local machine. 
 
 ## Accept Your Assignment
 
@@ -618,6 +621,13 @@ int (*tests[])(void) = {
     test_waitpid_option_2
 };
 
+/******************************/
+// (7)
+void clean_all_childs() {
+    int status;
+    while (wait(&status) != -1);
+}
+
 int all_test() {
     int flg = 1;
     for (int i = 0; i < sizeof(tests) / sizeof(tests[0]); i++) {
@@ -625,6 +635,7 @@ int all_test() {
             flg = 0;
             printf("[all_test] test[%d] failed\n", i);
         }
+        clean_all_childs();
     }
     if (flg) printf("[all_test] all tests passed\n");
     return 0;
@@ -643,3 +654,4 @@ int main(int argc, char **argv) {
 4. Test when `pid` is not a child process of current process. 
 5. Test `option == 1`.
 6. Test `option == 2`.
+7. Clean all the child processes.
