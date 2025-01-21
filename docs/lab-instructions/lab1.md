@@ -6,6 +6,9 @@
 !!! bug
     **Jan 17th, 9:50am:** I updated the test code to fix a bug. This bug didn't affect the result on GitHub Classroom. It only affected the result when you test it on your local machine. 
 
+!!! bug
+    **Jan 21th, 3:55pm:** I updated several invisible file for debugging. If you want to debug using gdb, it would show you something like `no target .gdbinit.tmpl-riscv can be compiled`. This PR fixed this bug. 
+
 ## Accept Your Assignment
 
 [https://classroom.github.com/a/c8VO7Hjn](https://classroom.github.com/a/c8VO7Hjn)
@@ -368,7 +371,7 @@ Explanation for parameters:
 	1. If pid <= 0, which means it's an invalid pid in xv6 (xv6 has a pid > 0), your function should work as `wait(int*)`, which means it will return whenever a child process exits. 
 	2. If pid > 0, but the process with `pid` isn't the child of current process, your function should return -1. 
 	3. If pid > 0 and the process with `pid` is the child of current process, but the child process with `pid` isn't running, your funcion should return -1.
-	4. If pid > 0 and the process with `pid` is the child of current process, the child process is running at the same time, your function should wait until its status becomes `zombie`. Then, clean up the memory the child process is using (just like in `wait()`) and return the status of the child process. 
+	4. If pid > 0 and the process with `pid` is the child of current process, the child process is running at the same time, your function should just do wait for this process with specified `pid`. 
 3. `options`, we'd play something in the function for this options. The `options` in Linux kernel is complex and it defines many macro for different function (you can take a look from [here](https://linux.die.net/man/2/waitpid)). We don't need that complex `options`. Instead, we'd just use several values to change the operation of the function.
 	1. If `options == 0` just run as normal (do nothing extra).
 	2. If `options == 1`, use `printf()` (you may be curious about this `printf()`, this `printf()` is different from the one we used in normal program, this one is defined under the kernel space of xv6, even though they have the same function.) to output a line of `OPTIONS=1` and a new line character `\n`. Then your function should do nothing and return 0.
