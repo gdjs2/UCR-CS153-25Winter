@@ -610,6 +610,10 @@
 <p class="admonition-title">Bug</p>
 <p><strong>Jan 17th, 9:50am:</strong> I updated the test code to fix a bug. This bug didn't affect the result on GitHub Classroom. It only affected the result when you test it on your local machine. </p>
 </div>
+<div class="admonition bug">
+<p class="admonition-title">Bug</p>
+<p><strong>Jan 21th, 3:55pm:</strong> I updated several invisible file for debugging. If you want to debug using gdb, it would show you something like <code>no target .gdbinit.tmpl-riscv can be compiled</code>. This PR fixed this bug. </p>
+</div>
 <h2 id="accept-your-assignment">Accept Your Assignment</h2>
 <p><a href="https://classroom.github.com/a/c8VO7Hjn">https://classroom.github.com/a/c8VO7Hjn</a></p>
 <p><strong>Due: Sunday, Feb 2nd, 2025, 23:59, PST</strong></p>
@@ -1061,7 +1065,7 @@ arr<span class="o">[</span><span class="m">5</span><span class="o">]</span><span
 <li>If pid &lt;= 0, which means it's an invalid pid in xv6 (xv6 has a pid &gt; 0), your function should work as <code>wait(int*)</code>, which means it will return whenever a child process exits. </li>
 <li>If pid &gt; 0, but the process with <code>pid</code> isn't the child of current process, your function should return -1. </li>
 <li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, but the child process with <code>pid</code> isn't running, your funcion should return -1.</li>
-<li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, the child process is running at the same time, your function should wait until its status becomes <code>zombie</code>. Then, clean up the memory the child process is using (just like in <code>wait()</code>) and return the status of the child process. </li>
+<li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, the child process is running at the same time, your function should just do wait for this process with specified <code>pid</code>. </li>
 </ol>
 </li>
 <li><code>options</code>, we'd play something in the function for this options. The <code>options</code> in Linux kernel is complex and it defines many macro for different function (you can take a look from <a href="https://linux.die.net/man/2/waitpid">here</a>). We don't need that complex <code>options</code>. Instead, we'd just use several values to change the operation of the function.<ol>
