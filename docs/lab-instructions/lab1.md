@@ -370,8 +370,7 @@ Explanation for parameters:
 2. `int pid`, instead of waiting for arbitrary child process terminating, `waitpid()` should only wait for specific child with `pid`. To be more specific:
 	1. If pid <= 0, which means it's an invalid pid in xv6 (xv6 has a pid > 0), your function should work as `wait(int*)`, which means it will return whenever a child process exits. 
 	2. If pid > 0, but the process with `pid` isn't the child of current process, your function should return -1. 
-	3. If pid > 0 and the process with `pid` is the child of current process, but the child process with `pid` isn't running, your funcion should return -1.
-	4. If pid > 0 and the process with `pid` is the child of current process, the child process is running at the same time, your function should just do wait for this process with specified `pid`. 
+	3. If pid > 0 and the process with `pid` is the child of current process, the child process is running at the same time, your function should just do `wait` for this process with specified `pid`. 
 3. `options`, we'd play something in the function for this options. The `options` in Linux kernel is complex and it defines many macro for different function (you can take a look from [here](https://linux.die.net/man/2/waitpid)). We don't need that complex `options`. Instead, we'd just use several values to change the operation of the function.
 	1. If `options == 0` just run as normal (do nothing extra).
 	2. If `options == 1`, use `printf()` (you may be curious about this `printf()`, this `printf()` is different from the one we used in normal program, this one is defined under the kernel space of xv6, even though they have the same function.) to output a line of `OPTIONS=1` and a new line character `\n`. Then your function should do nothing and return 0.
