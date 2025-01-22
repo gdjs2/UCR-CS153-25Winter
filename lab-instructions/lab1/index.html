@@ -1064,8 +1064,7 @@ arr<span class="o">[</span><span class="m">5</span><span class="o">]</span><span
 <li><code>int pid</code>, instead of waiting for arbitrary child process terminating, <code>waitpid()</code> should only wait for specific child with <code>pid</code>. To be more specific:<ol>
 <li>If pid &lt;= 0, which means it's an invalid pid in xv6 (xv6 has a pid &gt; 0), your function should work as <code>wait(int*)</code>, which means it will return whenever a child process exits. </li>
 <li>If pid &gt; 0, but the process with <code>pid</code> isn't the child of current process, your function should return -1. </li>
-<li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, but the child process with <code>pid</code> isn't running, your funcion should return -1.</li>
-<li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, the child process is running at the same time, your function should just do wait for this process with specified <code>pid</code>. </li>
+<li>If pid &gt; 0 and the process with <code>pid</code> is the child of current process, the child process is running at the same time, your function should just do <code>wait</code> for this process with specified <code>pid</code>. </li>
 </ol>
 </li>
 <li><code>options</code>, we'd play something in the function for this options. The <code>options</code> in Linux kernel is complex and it defines many macro for different function (you can take a look from <a href="https://linux.die.net/man/2/waitpid">here</a>). We don't need that complex <code>options</code>. Instead, we'd just use several values to change the operation of the function.<ol>
