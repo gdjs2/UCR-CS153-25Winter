@@ -8,7 +8,7 @@
 
 ## Background
 
-If you have been familiar with preemptive/non-preemptive scheduling, FIFO, RR, Priority-Based scheduling algorithms. You can skip to [scheduler in xv6](#scheduler-in-xv6-riscv)
+If you have been familiar with preemptive/non-preemptive scheduling, FIFO, RR, Priority-Based scheduling algorithms. You can skip to [ticks in xv6](#ticks-in-xv6-riscv)
 
 ### What is scheduler
 
@@ -323,6 +323,7 @@ Locks solve these problems by enforcing mutual exclusion: only one thread can ho
 A lock typically has two main operations:
 
 Acquire (or Lock): A thread requests ownership of the lock. If the lock is available, the thread acquires it and proceeds to the critical section. If the lock is held by another thread, the requesting thread waits (blocks) until the lock is released.
+
 Release (or Unlock): The thread that currently holds the lock releases it, allowing other threads to acquire the lock and access the critical section.
 
 **Types of Locks**
