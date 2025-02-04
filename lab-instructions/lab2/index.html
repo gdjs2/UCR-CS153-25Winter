@@ -849,7 +849,7 @@
 <p><a href="https://classroom.github.com/a/sFukyoo3">https://classroom.github.com/a/sFukyoo3</a></p>
 <p><strong>Due: Sunday, Feb 23rd, 2025, 23:59, PST</strong></p>
 <h2 id="background">Background</h2>
-<p>If you have been familiar with preemptive/non-preemptive scheduling, FIFO, RR, Priority-Based scheduling algorithms. You can skip to <a href="#scheduler-in-xv6-riscv">scheduler in xv6</a></p>
+<p>If you have been familiar with preemptive/non-preemptive scheduling, FIFO, RR, Priority-Based scheduling algorithms. You can skip to <a href="#ticks-in-xv6-riscv">ticks in xv6</a></p>
 <h3 id="what-is-scheduler">What is scheduler</h3>
 <p>The scheduler is a critical component of an operating system kernel responsible for managing and prioritizing access to the CPU(s) among multiple processes or threads. Its primary role is to decide which task runs next and for how long, ensuring efficient resource utilization and fair allocation.</p>
 <h3 id="preemptive-vs-non-preemptive">Preemptive v.s. Non-Preemptive</h3>
@@ -1242,8 +1242,8 @@ Data Corruption: When multiple threads modify shared data simultaneously, result
 Locks solve these problems by enforcing mutual exclusion: only one thread can hold a lock at a time, ensuring that shared resources are accessed in a controlled and safe manner.</p>
 <p><strong>How do Locks Work</strong></p>
 <p>A lock typically has two main operations:</p>
-<p>Acquire (or Lock): A thread requests ownership of the lock. If the lock is available, the thread acquires it and proceeds to the critical section. If the lock is held by another thread, the requesting thread waits (blocks) until the lock is released.
-Release (or Unlock): The thread that currently holds the lock releases it, allowing other threads to acquire the lock and access the critical section.</p>
+<p>Acquire (or Lock): A thread requests ownership of the lock. If the lock is available, the thread acquires it and proceeds to the critical section. If the lock is held by another thread, the requesting thread waits (blocks) until the lock is released.</p>
+<p>Release (or Unlock): The thread that currently holds the lock releases it, allowing other threads to acquire the lock and access the critical section.</p>
 <p><strong>Types of Locks</strong></p>
 <ul>
 <li>Mutex (Mutual Exclusion Lock):<ul>
