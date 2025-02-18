@@ -609,3 +609,5 @@ int main(int argc, char **argv) {
     else return all_tests();
 }
 ```
+
+For test 3-`test_scheduler`, it doesn't mean your scheduler is correct when you pass this test. There is a desirable output for it, which is the final priority for each process is `177` and the total difference priority difference is `170`. However, these numbers are not absolute. You answer should be close to this answer but minor difference is also acceptable. 
