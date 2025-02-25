@@ -503,6 +503,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#stack-growth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stack Growth
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -710,6 +719,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#stack-growth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stack Growth
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -859,7 +877,7 @@
 </code></pre></div></td></tr></table></div>
 <p>Above is the critical code for creating user stack and stack guard in <code>kernel/exec.c</code>. </p>
 <p>An every important function in this lab is <code>uvmalloc</code> standing for <em>user virtual memory alloc</em>. It's in <code>kernel/vm.c</code>. Even the comment for this function says, it will grow process from old sz to new sz, but the memory it allocated is not necessarily continuous. You can assume that this function is for creating PTEs and mapping the pages for a continuous memory space <span class="arithmatex">\([\text{oldsz}, \text{newsz})\)</span>. </p>
-<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -919,9 +937,11 @@
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">newsz</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-1. Page round up, alignment by PGSIZE. 
-2. Allocate a single physical page. This function will return the physical address for the page allocated. 
-3. This function create a mapping between virtual address <code>a</code> and physical address <code>mem</code>. This function will create necessary PTEs. </p>
+<ol>
+<li>Page round up, alignment by PGSIZE. </li>
+<li>Allocate a single physical page. This function will return the physical address for the page allocated. </li>
+<li>This function create a mapping between virtual address <code>a</code> and physical address <code>mem</code>. This function will create necessary PTEs. </li>
+</ol>
 <p>The heap memory in xv6 is allocated dynamically. To figure out how this finishes, we need search from the user space <code>malloc</code>. </p>
 <p>In <code>umalloc.c</code>, function <code>malloc</code> uses a simple strategy for heap allocation-Kernighan &amp; Ritchie Malloc. It's a malloc function based on free list. It works as followings:</p>
 <ol>
@@ -955,7 +975,7 @@
 <p>The first thing is changing the stack allocation. Currently, as shown in <code>exec()</code>, <code>uvmalloc()</code> would alloc <code>sz</code> to <code>sz + (USERSTACK+1)*PGSIZE</code> as user stack and page guard, which causes the stack at the bottom of the user space (because sz is increasing from 0~ during the execution). </p>
 <h3 id="to-uvmcopy">To <code>uvmcopy()</code></h3>
 <p>The second is modifying <code>uvmcopy()</code>-the memory copy function happened in <code>fork()</code>. This function copies the memory when fork happens, but it only copies the memory from 0 to <code>sz</code>. Because our modified kernel doesn't inside this range anymore, we need change <code>uvmcopy()</code> function to copy the stack. </p>
-<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -1025,7 +1045,9 @@
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-1. Copy from 0 to <code>sz</code>. </p>
+<ol>
+<li>Copy from 0 to <code>sz</code>. </li>
+</ol>
 <h3 id="to-proc_freepagetable">To <code>proc_freepagetable()</code></h3>
 <p><code>proc_freepagetable()</code> will free the page table of a process in <code>exit()</code> and <code>exec()</code>. It's obvious you need it in <code>exit()</code>. In <code>exec()</code>, because you copied the page table from the parent process, <code>exec()</code> should create a new page table for the incoming program. </p>
 <p>Current <code>proc_freepagetable()</code> only frees the memory from 0~<code>sz</code>. For the same reason, it doesn't contains our modified stack pages. </p>
@@ -1062,9 +1084,9 @@
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <p>It only allocates single page for mapping the code stored in <code>initcode[]</code>. This is just a piece of code calling <code>exec(/init)</code> so that it doesn't allocate stack. If you freed the stack in <code>proc_freepagetable()</code>, you need to come up with a method handling this initial process. </p>
-<p><strong>Stack Growth</strong></p>
+<h3 id="stack-growth">Stack Growth</h3>
 <p>The stack growth happens when a page fault is detected. The page fault is captured as an exception, therefore, trapped by <code>usertrap()</code> in <code>trap.c</code>. </p>
-<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -1132,7 +1154,9 @@
 <span class="w">  </span><span class="c1">// ...</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-1. This is current fault handler of xv6, it just prints out an error and show you some details. </p>
+<ol>
+<li>This is current fault handler of xv6, it just prints out an error and show you some details. </li>
+</ol>
 <p>To know whether this is a page fault, we need to check scause (supervisor cause register) value. </p>
 <p>scause value has two types-interrupt or exception, which are determined by the greatest bit of scause. If the greatest bit is 1, it's an interrupt; otherwise it's an exception. </p>
 <p>When it's an exception:</p>
