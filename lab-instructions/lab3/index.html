@@ -1,0 +1,1551 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Lab Session for CS153 Design of Operating System">
+      
+      
+        <meta name="author" content="Zhaoqi Xiao">
+      
+      
+        <link rel="canonical" href="http://gdjs2.cn/UCR-CS153-25Winter/lab-instructions/lab3/">
+      
+      
+        <link rel="prev" href="../lab2/">
+      
+      
+        <link rel="next" href="../pull-request/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.44">
+    
+    
+      
+        <title>Lab 3 - Memory - CS153 Design of Operating System - Lab Session</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab-3-memory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="CS153 Design of Operating System - Lab Session" class="md-header__button md-logo" aria-label="CS153 Design of Operating System - Lab Session" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CS153 Design of Operating System - Lab Session
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 3 - Memory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="CS153 Design of Operating System - Lab Session" class="md-nav__button md-logo" aria-label="CS153 Design of Operating System - Lab Session" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CS153 Design of Operating System - Lab Session
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CS153 - Design of Operating System - Lab Session - 25 Winter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Lab instructions
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Lab instructions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-pointers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to C language and Pointers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 0 Instructions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 1 - System Call
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 2 - Scheduler
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Lab 3 - Memory
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Lab 3 - Memory
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#accept-your-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accept Your Assignment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      Background
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Background">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memory-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Layout
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your Tasks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breakdown
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-Step Instructions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step-by-Step Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      System call
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-exec" class="md-nav__link">
+    <span class="md-ellipsis">
+      From exec()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to-uvmcopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      To uvmcopy()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to-proc_freepagetable" class="md-nav__link">
+    <span class="md-ellipsis">
+      To proc_freepagetable()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fix-some-bugs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fix Some Bugs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grading-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grading Policy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-write-in-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      What to write in report
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Program
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pull-request/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github Classroom Pull Request
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#accept-your-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accept Your Assignment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    <span class="md-ellipsis">
+      Background
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Background">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memory-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Layout
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your Tasks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breakdown
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-Step Instructions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step-by-Step Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      System call
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-exec" class="md-nav__link">
+    <span class="md-ellipsis">
+      From exec()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to-uvmcopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      To uvmcopy()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to-proc_freepagetable" class="md-nav__link">
+    <span class="md-ellipsis">
+      To proc_freepagetable()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fix-some-bugs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fix Some Bugs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grading-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grading Policy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-write-in-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      What to write in report
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Program
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="lab-3-memory">Lab 3 - Memory</h1>
+<h2 id="accept-your-assignment">Accept Your Assignment</h2>
+<p><a href="https://classroom.github.com/a/D7TkZLcL">https://classroom.github.com/a/D7TkZLcL</a></p>
+<p><strong>Due: Sunday, Mar 16th, 2025, 23:59, PST</strong></p>
+<h2 id="background">Background</h2>
+<p>In this Lab, we would like modify the memory layout about stack and heap in xv6-riscv to make it become closer to Linux. Specifically, you will move the stack in xv6 and implement a dynamic grow strategy for it. </p>
+<blockquote>
+<p>Note: unless we specify explicitly, all addresses in the instruction refer to virtual addresses. </p>
+</blockquote>
+<h3 id="memory-layout">Memory Layout</h3>
+<p><img alt="Memory Layout" src="../imgs/lab3-layout.svg" /></p>
+<p>The original memory layout of xv6 is on the left. Above <code>0x80000000</code>, which is defined by <code>KERNBASE</code> constant is the kernel space memory and the one below it is user space memory. </p>
+<p>What we care about is the user space memory. For user space, the block at the very bottom stores the code and static data, which is from the binary file loaded, e.g., hello-world program. The size of this block is determined statically whenever you execute a program by the binary size. </p>
+<p>The other two parts are stack and heap, which is quite the same as you learned in you C/C++ class. In xv6, the allocation of stack is static as well. Specifically, the kernel will allocate two pages for stack in <code>exec()</code> system call. One page is for stack guard and another is for user stack. </p>
+<blockquote>
+<p>See <a href="https://en.wikipedia.org/wiki/Stack-based_memory_allocation">here</a> if you don't remember what stack memory is.</p>
+</blockquote>
+<p>For stack guard, this memory will be marked as user-unreadable after mapped. Therefore, any attempt accessing this memory will trigger a page fault. The guard is below the user stack. </p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code>|    HEAP  ^   | 
+|--------------|
+|              |
+|  USER STACK  |
+|   (1 Page)   |
+|--------------|
+|//////////////|
+|//STACK GUARD/|
+|///(1 Page)///|
+|--------------|
+|  TEXT &amp; DATA |
+|      ...     |
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">int</span>
+<span class="nf">exec</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="c1">// ...</span>
+<span class="w">  </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myproc</span><span class="p">();</span>
+<span class="w">  </span><span class="n">uint64</span><span class="w"> </span><span class="n">oldsz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sz</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Allocate some pages at the next page boundary.</span>
+<span class="w">  </span><span class="c1">// Make the first inaccessible as a stack guard.</span>
+<span class="w">  </span><span class="c1">// Use the rest as the user stack.</span>
+<span class="w">  </span><span class="n">sz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PGROUNDUP</span><span class="p">(</span><span class="n">sz</span><span class="p">);</span>
+<span class="w">  </span><span class="n">uint64</span><span class="w"> </span><span class="n">sz1</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="p">((</span><span class="n">sz1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uvmalloc</span><span class="p">(</span><span class="n">pagetable</span><span class="p">,</span><span class="w"> </span><span class="n">sz</span><span class="p">,</span><span class="w"> </span><span class="n">sz</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">USERSTACK</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">PGSIZE</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_W</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">bad</span><span class="p">;</span>
+<span class="w">  </span><span class="n">sz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sz1</span><span class="p">;</span>
+<span class="w">  </span><span class="n">uvmclear</span><span class="p">(</span><span class="n">pagetable</span><span class="p">,</span><span class="w"> </span><span class="n">sz</span><span class="o">-</span><span class="p">(</span><span class="n">USERSTACK</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">PGSIZE</span><span class="p">);</span>
+<span class="w">  </span><span class="n">sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sz</span><span class="p">;</span>
+<span class="w">  </span><span class="n">stackbase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">USERSTACK</span><span class="o">*</span><span class="n">PGSIZE</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+<span class="w"> </span><span class="nl">bad</span><span class="p">:</span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">pagetable</span><span class="p">)</span>
+<span class="w">    </span><span class="n">proc_freepagetable</span><span class="p">(</span><span class="n">pagetable</span><span class="p">,</span><span class="w"> </span><span class="n">sz</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">ip</span><span class="p">){</span>
+<span class="w">    </span><span class="n">iunlockput</span><span class="p">(</span><span class="n">ip</span><span class="p">);</span>
+<span class="w">    </span><span class="n">end_op</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Above is the critical code for creating user stack and stack guard in <code>kernel/exec.c</code>. </p>
+<p>An every important function in this lab is <code>uvmalloc</code> standing for <em>user virtual memory alloc</em>. It's in <code>kernel/vm.c</code>. Even the comment for this function says, it will grow process from old sz to new sz, but the memory it allocated is not necessarily continuous. You can assume that this function is for creating PTEs and mapping the pages for a continuous memory space <span class="arithmatex">\([\text{oldsz}, \text{newsz})\)</span>. </p>
+<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Allocate PTEs and physical memory to grow process from oldsz to</span>
+<span class="c1">// newsz, which need not be page aligned.  Returns new size or 0 on error.</span>
+<span class="n">uint64</span>
+<span class="nf">uvmalloc</span><span class="p">(</span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">pagetable</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">oldsz</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">newsz</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">xperm</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">;</span>
+<span class="w">  </span><span class="n">uint64</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">newsz</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">oldsz</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">oldsz</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// (1)</span>
+<span class="w">  </span><span class="n">oldsz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PGROUNDUP</span><span class="p">(</span><span class="n">oldsz</span><span class="p">);</span>
+<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">oldsz</span><span class="p">;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">newsz</span><span class="p">;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">){</span>
+<span class="w">    </span><span class="c1">// (2) </span>
+<span class="w">    </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kalloc</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">mem</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span>
+<span class="w">      </span><span class="n">uvmdealloc</span><span class="p">(</span><span class="n">pagetable</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">oldsz</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// (3)</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">mappages</span><span class="p">(</span><span class="n">pagetable</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_R</span><span class="o">|</span><span class="n">PTE_U</span><span class="o">|</span><span class="n">xperm</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span>
+<span class="w">      </span><span class="n">kfree</span><span class="p">(</span><span class="n">mem</span><span class="p">);</span>
+<span class="w">      </span><span class="n">uvmdealloc</span><span class="p">(</span><span class="n">pagetable</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">oldsz</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">newsz</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+1. Page round up, alignment by PGSIZE. 
+2. Allocate a single physical page. This function will return the physical address for the page allocated. 
+3. This function create a mapping between virtual address <code>a</code> and physical address <code>mem</code>. This function will create necessary PTEs. </p>
+<p>The heap memory in xv6 is allocated dynamically. To figure out how this finishes, we need search from the user space <code>malloc</code>. </p>
+<p>In <code>umalloc.c</code>, function <code>malloc</code> uses a simple strategy for heap allocation-Kernighan &amp; Ritchie Malloc. It's a malloc function based on free list. It works as followings:</p>
+<ol>
+<li>Find a large enough node in the list.</li>
+<li>If there is, split this block into two-one is for allocation and another is for free. </li>
+<li>If there isn't, acquire more memory from the kernel. </li>
+</ol>
+<p>In <code>malloc()</code>, the function for acquiring more memory is <code>morecore()</code> function. This function further calls <code>sbrk()</code> system call to allocate the memory. </p>
+<p><code>sbrk</code> doesn't have its own implementation, it is implemented in <code>sys_sbrk()</code>. It calls <code>growproc()</code> in <code>kernel/proc.c</code> and <code>growproc()</code> uses <code>p-&gt;sz</code> as its indicator for mapping the memory pages. </p>
+<h2 id="your-tasks">Your Tasks</h2>
+<p>Your tasks in lab 3 is as described in <a href="#memory-layout">figure</a>. The original memory layout in xv6, which is in the left should be modified to the one in the right. The key difference is the location of stack. In the left, the stack is at the bottom of the memory space, which is just above the text and data segment. In the right, however, it should be moved to the top of the user space, adjacent to the <code>KERNBASE</code>. </p>
+<p>This modification brings an advantage, which is allowing the grow of stack. Currently, if you run a deep-recursive function or allocate a large buffer (&gt; 1 page, 4KiB) on xv6, it will trigger the page fault because the stack size in xv6 is fixed to 1 page. Stack grow could enhance the flexibility and capability of xv6, which allows the kernel allocating more pages for stack in need. </p>
+<h3 id="breakdown">Breakdown</h3>
+<ol>
+<li>Change the memory layout of xv6, move the stack from the bottom of user space to the top. </li>
+<li>You should keep the stack guard. </li>
+<li>The stack memory should just below the <code>KERNBASE</code>. </li>
+<li>Implement stack growth for xv6.</li>
+<li>Current default stack pages count is 1, which is defined by <code>USERSTACK</code> in <code>kernel/param.h</code> and the number of stack pages will never change. You should keep the default value when creating the initial stack for process in <code>exec()</code>.</li>
+<li>Your kernel need allocate extra pages when a page fault related to stack happens. </li>
+<li>The maximum pages for stack is defined by <code>RLIMIT_STACK</code> in <code>kernel/param.h</code>. It's useful when you decide whether the page fault is related to stack. <code>RLIMIT_STACK</code> doesn't include the guard page. Both <code>USERSTACK</code> and <code>RLIMIT_STACK</code> are for user stack and exclude the guard page. </li>
+<li>One extra system call is needed: <code>stackpg()</code>.</li>
+<li>The system call need return the number of current process's user stack page. This number should ignore the guard page. </li>
+</ol>
+<h2 id="step-by-step-instructions">Step-by-Step Instructions</h2>
+<h3 id="system-call">System call</h3>
+<p>The system call is the easiest to get started with. You also need another field (variable) defined in <code>struct proc</code> for tracking the number of stack pages. </p>
+<hr />
+<p><strong>Memory Layout</strong></p>
+<h3 id="from-exec">From <code>exec()</code></h3>
+<p>The first thing is changing the stack allocation. Currently, as shown in <code>exec()</code>, <code>uvmalloc()</code> would alloc <code>sz</code> to <code>sz + (USERSTACK+1)*PGSIZE</code> as user stack and page guard, which causes the stack at the bottom of the user space (because sz is increasing from 0~ during the execution). </p>
+<h3 id="to-uvmcopy">To <code>uvmcopy()</code></h3>
+<p>The second is modifying <code>uvmcopy()</code>-the memory copy function happened in <code>fork()</code>. This function copies the memory when fork happens, but it only copies the memory from 0 to <code>sz</code>. Because our modified kernel doesn't inside this range anymore, we need change <code>uvmcopy()</code> function to copy the stack. </p>
+<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Given a parent process&#39;s page table, copy</span>
+<span class="c1">// its memory into a child&#39;s page table.</span>
+<span class="c1">// Copies both the page table and the</span>
+<span class="c1">// physical memory.</span>
+<span class="c1">// returns 0 on success, -1 on failure.</span>
+<span class="c1">// frees any allocated pages on failure.</span>
+<span class="kt">int</span>
+<span class="nf">uvmcopy</span><span class="p">(</span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">old</span><span class="p">,</span><span class="w"> </span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">new</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">sz</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">pte_t</span><span class="w"> </span><span class="o">*</span><span class="n">pte</span><span class="p">;</span>
+<span class="w">  </span><span class="n">uint64</span><span class="w"> </span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">  </span><span class="n">uint</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">;</span>
+<span class="w">  </span><span class="c1">// (1)</span>
+<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">sz</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">){</span>
+<span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="n">pte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">walk</span><span class="p">(</span><span class="n">old</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">      </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;uvmcopy: pte should exist&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="o">*</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_V</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">      </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;uvmcopy: page not present&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PTE2PA</span><span class="p">(</span><span class="o">*</span><span class="n">pte</span><span class="p">);</span>
+<span class="w">    </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PTE_FLAGS</span><span class="p">(</span><span class="o">*</span><span class="n">pte</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kalloc</span><span class="p">())</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">      </span><span class="k">goto</span><span class="w"> </span><span class="n">err</span><span class="p">;</span>
+<span class="w">    </span><span class="n">memmove</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">mappages</span><span class="p">(</span><span class="n">new</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span>
+<span class="w">      </span><span class="n">kfree</span><span class="p">(</span><span class="n">mem</span><span class="p">);</span>
+<span class="w">      </span><span class="k">goto</span><span class="w"> </span><span class="n">err</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w"> </span><span class="nl">err</span><span class="p">:</span>
+<span class="w">  </span><span class="n">uvmunmap</span><span class="p">(</span><span class="n">new</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+1. Copy from 0 to <code>sz</code>. </p>
+<h3 id="to-proc_freepagetable">To <code>proc_freepagetable()</code></h3>
+<p><code>proc_freepagetable()</code> will free the page table of a process in <code>exit()</code> and <code>exec()</code>. It's obvious you need it in <code>exit()</code>. In <code>exec()</code>, because you copied the page table from the parent process, <code>exec()</code> should create a new page table for the incoming program. </p>
+<p>Current <code>proc_freepagetable()</code> only frees the memory from 0~<code>sz</code>. For the same reason, it doesn't contains our modified stack pages. </p>
+<h3 id="fix-some-bugs">Fix Some Bugs</h3>
+<p>Another minor issue is the initial process. The initial process is special, defined in <code>userinit()</code> of <code>kernel/proc.c</code>. This function calls <code>uvmfirst()</code> to create its own memory. </p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Load the user initcode into address 0 of pagetable,</span>
+<span class="c1">// for the very first process.</span>
+<span class="c1">// sz must be less than a page.</span>
+<span class="kt">void</span>
+<span class="nf">uvmfirst</span><span class="p">(</span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">pagetable</span><span class="p">,</span><span class="w"> </span><span class="n">uchar</span><span class="w"> </span><span class="o">*</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">uint</span><span class="w"> </span><span class="n">sz</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">sz</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">)</span>
+<span class="w">    </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;uvmfirst: more than a page&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kalloc</span><span class="p">();</span>
+<span class="w">  </span><span class="n">memset</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
+<span class="w">  </span><span class="n">mappages</span><span class="p">(</span><span class="n">pagetable</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_W</span><span class="o">|</span><span class="n">PTE_R</span><span class="o">|</span><span class="n">PTE_X</span><span class="o">|</span><span class="n">PTE_U</span><span class="p">);</span>
+<span class="w">  </span><span class="n">memmove</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">sz</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>It only allocates single page for mapping the code stored in <code>initcode[]</code>. This is just a piece of code calling <code>exec(/init)</code> so that it doesn't allocate stack. If you freed the stack in <code>proc_freepagetable()</code>, you need to come up with a method handling this initial process. </p>
+<p><strong>Stack Growth</strong></p>
+<p>The stack growth happens when a page fault is detected. The page fault is captured as an exception, therefore, trapped by <code>usertrap()</code> in <code>trap.c</code>. </p>
+<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">//</span>
+<span class="c1">// handle an interrupt, exception, or system call from user space.</span>
+<span class="c1">// called from trampoline.S</span>
+<span class="c1">//</span>
+<span class="kt">void</span>
+<span class="nf">usertrap</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">which_dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">((</span><span class="n">r_sstatus</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SSTATUS_SPP</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;usertrap: not from user mode&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// send interrupts and exceptions to kerneltrap(),</span>
+<span class="w">  </span><span class="c1">// since we&#39;re now in the kernel.</span>
+<span class="w">  </span><span class="n">w_stvec</span><span class="p">((</span><span class="n">uint64</span><span class="p">)</span><span class="n">kernelvec</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myproc</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// save user program counter.</span>
+<span class="w">  </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">epc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_sepc</span><span class="p">();</span>
+
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">r_scause</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="p">){</span>
+<span class="w">    </span><span class="c1">// system call</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">((</span><span class="n">which_dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">devintr</span><span class="p">())</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span>
+<span class="w">    </span><span class="c1">// ok</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// (1)</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;usertrap(): unexpected scause 0x%lx pid=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r_scause</span><span class="p">(),</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;            sepc=0x%lx stval=0x%lx</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r_sepc</span><span class="p">(),</span><span class="w"> </span><span class="n">r_stval</span><span class="p">());</span>
+<span class="w">    </span><span class="n">setkilled</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+1. This is current fault handler of xv6, it just prints out an error and show you some details. </p>
+<p>To know whether this is a page fault, we need to check scause (supervisor cause register) value. </p>
+<p>scause value has two types-interrupt or exception, which are determined by the greatest bit of scause. If the greatest bit is 1, it's an interrupt; otherwise it's an exception. </p>
+<p>When it's an exception:</p>
+<ul>
+<li><strong>0</strong> - Instruction Address Misaligned  </li>
+<li><strong>1</strong> - Instruction Access Fault  </li>
+<li><strong>2</strong> - Illegal Instruction  </li>
+<li><strong>3</strong> - Breakpoint  </li>
+<li><strong>4</strong> - Load Address Misaligned  </li>
+<li><strong>5</strong> - Load Access Fault  </li>
+<li><strong>6</strong> - Store/AMO Address Misaligned  </li>
+<li><strong>7</strong> - Store/AMO Access Fault  </li>
+<li><strong>8</strong> - Environment Call from U-mode  </li>
+<li><strong>9</strong> - Environment Call from S-mode  </li>
+<li><strong>12</strong> - Instruction Page Fault  </li>
+<li><strong>13</strong> - Load Page Fault  </li>
+<li><strong>15</strong> - Store/AMO Page Fault  </li>
+</ul>
+<p>When it's an interrupt:</p>
+<ul>
+<li><strong>1</strong> - Supervisor Software Interrupt  </li>
+<li><strong>5</strong> - Supervisor Timer Interrupt  </li>
+<li><strong>9</strong> - Supervisor External Interrupt </li>
+</ul>
+<p>What we care about, is the exception 13 and 15. They are load &amp; store page fault, therefore they might be a page fault related to stack. To further check whether it's a stack page fault, we also need to check the address. </p>
+<p>The address attempted to write to is stored in <code>stval()</code> register. The distance between this address and <code>KERNBASE</code> should be less or equal to <code>PGSIZE * RLIMIT_STACK</code> to be considered as a stack page fault. </p>
+<p>For a stack page fault, you need to allocate more pages as need to make the program running normally instead of exiting with page fault exception. </p>
+<h2 id="grading-policy">Grading Policy</h2>
+<p>10 pts in total:</p>
+<ol>
+<li>2 pts for the attendance. </li>
+<li>8 pts for the Lab code (as shown in the autograder). If you don't have a report submitted, your grade for the code will receive a 50% penalty. </li>
+</ol>
+<p>We reserve the rights to grade your Lab according to your report in any situation. You can make a request for grading your Lab just according to your report if you cannot submit a runnable code. But we can't ensure we will give you any grade. </p>
+<p>We may also grade your assignment just according to your report (which means we will give up your grade in autograder) if we find any <strong>SENSITIVE</strong> code in your work or we find some unmatched performance for you between the labs and lectures. To avoid this case, understand and following the instruction well, write the code by yourself and never share your code with others. </p>
+<h2 id="what-to-write-in-report">What to write in report</h2>
+<p>We don't expect a very detailed report. Keep it in 2-3 pages. You don't need to copy, paste and explain your code in the report, as we can find them in your repo. </p>
+<p>Instead, you need to explain</p>
+<ol>
+<li>Which files you modified and the reason for the modification. </li>
+<li>Is there any difficulty you met and how do you solve them.</li>
+<li>For now, the <code>malloc()</code> system call uses a very naive way for managing heap memory. What's its advantage and disadvantage. Which one is a better replacement to it?</li>
+<li>For the stack page field you added in lab, which lock do you need to hold before accessing it and why?</li>
+</ol>
+<p>You can add other things in the report as well if you like. </p>
+<h2 id="test-program">Test Program</h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  1</span>
+<span class="normal">  2</span>
+<span class="normal">  3</span>
+<span class="normal">  4</span>
+<span class="normal">  5</span>
+<span class="normal">  6</span>
+<span class="normal">  7</span>
+<span class="normal">  8</span>
+<span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;kernel/types.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;user.h&quot;</span>
+
+<span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0dcd7249a5ad65f479a1b66c5cc603d8&quot;</span><span class="p">;</span>
+
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="mf">1e9</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">srand</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">lcg_rand</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1103515245</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">107</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">mod</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">seed</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">test_layout</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">stack_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lcg_rand</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">heap_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+<span class="w">    </span><span class="o">*</span><span class="n">heap_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stack_var</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">stack_var</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">*</span><span class="n">heap_ptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_layout] stack_var should be equal to heap_var, however got [stack_var: %x] </span><span class="se">\\</span><span class="s">neq [heap_var: %x]&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">stack_var</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">heap_ptr</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">stack_var</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">heap_ptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_layout] stack should be above heap however got stack_ptr=%p &lt; heap_ptr=%p&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">stack_var</span><span class="p">,</span><span class="w"> </span><span class="n">heap_ptr</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_layout] %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_layout] PASSED</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">test_stack_copy_in_fork</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fork</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">stack_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lcg_rand</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">stack_var</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">retval</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">retval</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">pid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_stack_copy_in_fork] fork &amp; wait failed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_stack_copy_in_fork] %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_stack_copy_in_fork] PASSED</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">fib</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">fibonacci</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fib</span><span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">fib</span><span class="p">[</span><span class="n">x</span><span class="p">];</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">fib</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="n">fibonacci</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fibonacci</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">mod</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">test_grow_with_recursion</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">fib_1000</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fibonacci</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fib_1000</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">517691607</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_with_recursion] expected fib(1000) = 517691607, however got fib(1000) = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fib_1000</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_with_recursion] %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_with_recursion] PASSED</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">test_grow_with_large_stack_buffer</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_with_large_stack_buffer] allocating 8 * 4 KiB (8 pages) stack buffer</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">stack_buf</span><span class="p">[</span><span class="mi">8</span><span class="o">&lt;&lt;</span><span class="mi">12</span><span class="p">];</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_with_large_stack_buffer] stack buffer allocated: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">stack_buf</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">stack_buf</span><span class="p">);</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">stack_buf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lcg_rand</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">stack_buf</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">stack_buf</span><span class="p">);</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">stack_buf</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_with_large_stack_buffer] sum of stack buffer: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_with_large_stack_buffer] %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_with_large_stack_buffer] PASSED</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">large_buffer</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// out of rlimit</span>
+<span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">20</span><span class="p">];</span>
+<span class="w">    </span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">test_grow_out_of_limit</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">fork</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">large_buffer</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">status</span><span class="p">;</span>
+<span class="w">    </span><span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">status</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_out_of_limit] expected status = -1, however got status = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_out_of_limit] %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_grow_out_of_limit] PASSED</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">precheck_page_grow</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">pages</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="n">pages</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">12</span><span class="p">];</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[precheck_page_grow] allocated %d pages stack buffer: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pages</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">stackpg</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">pages</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[precheck_page_grow] stackpg() should return %d, however got %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pages</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">stackpg</span><span class="p">());</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">test_precheck</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// check system call</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">stackpg</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_precheck] stackpg() should return 1 for start-up process, however got %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">stackpg</span><span class="p">());</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lcg_rand</span><span class="p">()</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">128</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">pages</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">lcg_rand</span><span class="p">()</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">precheck_page_grow</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_precheck] %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[test_precheck] PASSED</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">tests</span><span class="p">[])(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">test_precheck</span><span class="p">,</span>
+<span class="w">    </span><span class="n">test_layout</span><span class="p">,</span>
+<span class="w">    </span><span class="n">test_stack_copy_in_fork</span><span class="p">,</span>
+<span class="w">    </span><span class="n">test_grow_with_recursion</span><span class="p">,</span>
+<span class="w">    </span><span class="n">test_grow_with_large_stack_buffer</span><span class="p">,</span>
+<span class="w">    </span><span class="n">test_grow_out_of_limit</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">all_tests</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">tests</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tests</span><span class="p">[</span><span class="n">i</span><span class="p">]())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">srand</span><span class="p">(</span><span class="n">uptime</span><span class="p">());</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">tests</span><span class="p">[</span><span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])]();</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">all_tests</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Zhaoqi Xiao. All rights reserved.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
