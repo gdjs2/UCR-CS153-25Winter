@@ -23,6 +23,7 @@ The left Q/A labs will not have attendance taken. You are free to come if you ne
 0. [Lab 0 (Not counted for score)](./lab-instructions/lab0.md)
 1. [Lab 1](./lab-instructions/lab1.md)
 2. [Lab 2](./lab-instructions/lab2.md)
+3. [Lab 3](./lab-instructions/lab3.md)
 
 ## Supplementary Materials
 
