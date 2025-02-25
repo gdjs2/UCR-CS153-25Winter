@@ -109,6 +109,7 @@ uvmalloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz, int xperm)
   return newsz;
 }
 ```
+
 1. Page round up, alignment by PGSIZE. 
 2. Allocate a single physical page. This function will return the physical address for the page allocated. 
 3. This function create a mapping between virtual address `a` and physical address `mem`. This function will create necessary PTEs. 
@@ -198,6 +199,7 @@ uvmcopy(pagetable_t old, pagetable_t new, uint64 sz)
   return -1;
 }
 ```
+
 1. Copy from 0 to `sz`. 
 
 ### To `proc_freepagetable()`
@@ -230,7 +232,7 @@ uvmfirst(pagetable_t pagetable, uchar *src, uint sz)
 
 It only allocates single page for mapping the code stored in `initcode[]`. This is just a piece of code calling `exec(/init)` so that it doesn't allocate stack. If you freed the stack in `proc_freepagetable()`, you need to come up with a method handling this initial process. 
 
-**Stack Growth**
+### Stack Growth
 
 The stack growth happens when a page fault is detected. The page fault is captured as an exception, therefore, trapped by `usertrap()` in `trap.c`. 
 
@@ -270,6 +272,7 @@ usertrap(void)
   // ...
 }
 ```
+
 1. This is current fault handler of xv6, it just prints out an error and show you some details. 
 
 To know whether this is a page fault, we need to check scause (supervisor cause register) value. 
