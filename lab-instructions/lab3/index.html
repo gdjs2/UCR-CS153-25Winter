@@ -956,15 +956,21 @@
 <p>This modification brings an advantage, which is allowing the grow of stack. Currently, if you run a deep-recursive function or allocate a large buffer (&gt; 1 page, 4KiB) on xv6, it will trigger the page fault because the stack size in xv6 is fixed to 1 page. Stack grow could enhance the flexibility and capability of xv6, which allows the kernel allocating more pages for stack in need. </p>
 <h3 id="breakdown">Breakdown</h3>
 <ol>
-<li>Change the memory layout of xv6, move the stack from the bottom of user space to the top. </li>
+<li>Change the memory layout of xv6, move the stack from the bottom of user space to the top. <ol>
 <li>You should keep the stack guard. </li>
 <li>The stack memory should just below the <code>KERNBASE</code>. </li>
-<li>Implement stack growth for xv6.</li>
+</ol>
+</li>
+<li>Implement stack growth for xv6.<ol>
 <li>Current default stack pages count is 1, which is defined by <code>USERSTACK</code> in <code>kernel/param.h</code> and the number of stack pages will never change. You should keep the default value when creating the initial stack for process in <code>exec()</code>.</li>
 <li>Your kernel need allocate extra pages when a page fault related to stack happens. </li>
 <li>The maximum pages for stack is defined by <code>RLIMIT_STACK</code> in <code>kernel/param.h</code>. It's useful when you decide whether the page fault is related to stack. <code>RLIMIT_STACK</code> doesn't include the guard page. Both <code>USERSTACK</code> and <code>RLIMIT_STACK</code> are for user stack and exclude the guard page. </li>
-<li>One extra system call is needed: <code>stackpg()</code>.</li>
+</ol>
+</li>
+<li>One extra system call is needed: <code>stackpg()</code>.<ol>
 <li>The system call need return the number of current process's user stack page. This number should ignore the guard page. </li>
+</ol>
+</li>
 </ol>
 <h2 id="step-by-step-instructions">Step-by-Step Instructions</h2>
 <h3 id="system-call">System call</h3>
