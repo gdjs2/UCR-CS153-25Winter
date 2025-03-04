@@ -1,5 +1,8 @@
 # Lab 3 - Memory
 
+!!! note
+    Hello all! The course evaluation for this quarter has opened now. Please give us a positive review if you feel you have learned something from the Lab sessions! You comments to the Labs are also welcome. Appreciate!
+
 ## Accept Your Assignment
 
 [https://classroom.github.com/a/D7TkZLcL](https://classroom.github.com/a/D7TkZLcL)
@@ -135,14 +138,14 @@ This modification brings an advantage, which is allowing the grow of stack. Curr
 ### Breakdown
 
 1. Change the memory layout of xv6, move the stack from the bottom of user space to the top. 
-   1. You should keep the stack guard. 
-   2. The stack memory should just below the `KERNBASE`. 
+    1. You should keep the stack guard. 
+    2. The stack memory should just below the `KERNBASE`. 
 2. Implement stack growth for xv6.
-   1. Current default stack pages count is 1, which is defined by `USERSTACK` in `kernel/param.h` and the number of stack pages will never change. You should keep the default value when creating the initial stack for process in `exec()`.
-   2. Your kernel need allocate extra pages when a page fault related to stack happens. 
-   3. The maximum pages for stack is defined by `RLIMIT_STACK` in `kernel/param.h`. It's useful when you decide whether the page fault is related to stack. `RLIMIT_STACK` doesn't include the guard page. Both `USERSTACK` and `RLIMIT_STACK` are for user stack and exclude the guard page. 
+    1. Current default stack pages count is 1, which is defined by `USERSTACK` in `kernel/param.h` and the number of stack pages will never change. You should keep the default value when creating the initial stack for process in `exec()`.
+    2. Your kernel need allocate extra pages when a page fault related to stack happens. 
+    3. The maximum pages for stack is defined by `RLIMIT_STACK` in `kernel/param.h`. It's useful when you decide whether the page fault is related to stack. `RLIMIT_STACK` doesn't include the guard page. Both `USERSTACK` and `RLIMIT_STACK` are for user stack and exclude the guard page. 
 3. One extra system call is needed: `stackpg()`.
-   1. The system call need return the number of current process's user stack page. This number should ignore the guard page. 
+    4. The system call need return the number of current process's user stack page. This number should ignore the guard page. 
 
 ## Step-by-Step Instructions
 
